@@ -2,8 +2,8 @@ package site.metacoding.firstapp.domain.user;
 
 import java.util.List;
 
-import site.metacoding.firstapp.web.dto.request.LoginReqDto;
-import site.metacoding.firstapp.web.dto.response.SessionUserDto;
+import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 public interface UserDao {
 

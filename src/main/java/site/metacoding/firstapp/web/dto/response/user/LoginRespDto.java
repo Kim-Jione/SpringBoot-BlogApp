@@ -1,8 +1,8 @@
-package site.metacoding.firstapp.web.dto.response;
+package site.metacoding.firstapp.web.dto.response.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import site.metacoding.firstapp.web.dto.request.LoginReqDto;
+import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 
 @Getter
 @Setter
@@ -15,8 +15,8 @@ public class LoginRespDto {
 		this.password = loginReqDto.getPassword();
 	}
 
-	public LoginRespDto(SessionUserDto userPS) {
-		this.username = userPS.getUsername();
-		this.password = userPS.getPassword();
+	public LoginRespDto(SessionUserDto principal) {
+		this.username = principal.getUsername();
+		this.password = principal.getPassword();
 	}
 }

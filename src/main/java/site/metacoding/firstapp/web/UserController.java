@@ -13,11 +13,11 @@ import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
-import site.metacoding.firstapp.web.dto.request.JoinReqDto;
-import site.metacoding.firstapp.web.dto.request.LoginReqDto;
-import site.metacoding.firstapp.web.dto.response.JoinRespDto;
-import site.metacoding.firstapp.web.dto.response.LoginRespDto;
-import site.metacoding.firstapp.web.dto.response.SessionUserDto;
+import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
+import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
+import site.metacoding.firstapp.web.dto.response.user.LoginRespDto;
+import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +29,7 @@ public class UserController {
 	// 회원가입 페이지
 	@GetMapping("/user/joinForm")
 	public CMRespDto<?> joinForm() {
-		return new CMRespDto<>(1, "회원가입 페이지 불러오기 성공", null);
+		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", null);
 	}
 
 	// 회원가입 응답
@@ -64,12 +64,12 @@ public class UserController {
 	// 로그아웃
 	@GetMapping("/user/logout")
 	public CMRespDto<?> logout() {
-		SessionUserDto userPS = (SessionUserDto) session.getAttribute("principal");
-		if (userPS == null) {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		if (principal == null) {
 			return new CMRespDto<>(-1, "로그아웃 실패", null);
 		}
 		session.removeAttribute("principal");
-		LoginRespDto loginRespDto = new LoginRespDto(userPS);
+		LoginRespDto loginRespDto = new LoginRespDto(principal);
 		return new CMRespDto<>(1, "로그아웃 성공", loginRespDto);
 	}
 

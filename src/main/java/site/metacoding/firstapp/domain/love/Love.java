@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public class Love {
 	private Integer loveId;
-	private Integer usersId;
-	private Integer postsId;
+	private Integer userId;
+	private Integer postId;
 	private Timestamp updatedAt;
 	private Timestamp createdAt;
 }

@@ -32,8 +32,9 @@
     </select>
 
 	<select id="login"
-		resultType="site.metacoding.firstapp.web.dto.response.SessionUserDto">
-		SELECT * FROM user 
+		resultType="site.metacoding.firstapp.web.dto.response.user.SessionUserDto">
+		SELECT * 
+		FROM user 
 		WHERE username=#{username} AND password = #{password}
 	</select>
 </mapper>

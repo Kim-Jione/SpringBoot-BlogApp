@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
-import site.metacoding.firstapp.web.dto.request.JoinReqDto;
-import site.metacoding.firstapp.web.dto.response.JoinRespDto;
+import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
+import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 
 @RequiredArgsConstructor
 @Service

@@ -25,12 +25,33 @@
           UPDATE post
 		  SET post_title = #{postTitle},
 		  post_content = #{postContent},
-		  post_thumnail = #{postThumnail},
-		  user_id = #{userId}
+		  post_thumnail = #{postThumnail}
+		  WHERE post_id=#{postId}
     </update>
 
 	<delete id="delete">
 		DELETE FROM post WHERE post_id = #{postId}
 	</delete>
+
+	<select id="saveResult" resultType="site.metacoding.firstapp.web.dto.response.post.SaveRespDto">
+    SELECT *
+    FROM post
+    WHERE user_id = #{userId}
+    ORDER BY post_id desc
+	FETCH NEXT 1 ROWS ONLY
+    </select>
 	
+	<select id="updateResult" resultType="site.metacoding.firstapp.web.dto.response.post.UpdateRespDto">
+    SELECT *
+    FROM post
+    WHERE user_id = #{userId}
+    ORDER BY post_id desc
+	FETCH NEXT 1 ROWS ONLY
+    </select>
+
+    <select id="deleteResult" resultType="site.metacoding.firstapp.web.dto.response.post.DeleteRespDto">
+    	SELECT *
+    	FROM post
+    	WHERE post_id=#{postId}
+    </select>
 </mapper>

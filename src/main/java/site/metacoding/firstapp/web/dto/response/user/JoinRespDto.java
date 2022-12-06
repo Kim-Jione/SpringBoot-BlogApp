@@ -1,4 +1,4 @@
-package site.metacoding.firstapp.web.dto.response;
+package site.metacoding.firstapp.web.dto.response.user;
 
 import lombok.Getter;
 import lombok.Setter;
