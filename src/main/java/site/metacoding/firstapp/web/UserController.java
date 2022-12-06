@@ -59,4 +59,15 @@ public class UserController {
 		return new CMRespDto<>(1, "로그인성공", principal);
 	}
 
+	// 로그아웃
+	@GetMapping("/user/logout")
+	public CMRespDto<?> logout() {
+		LoginRespDto userPS = (LoginRespDto) session.getAttribute("principal");
+		if (userPS == null) {
+			return new CMRespDto<>(-1, "로그아웃 실패", null);
+		}
+		session.removeAttribute("principal");
+		return new CMRespDto<>(1, "로그아웃 성공", userPS);
+	}
+
 }
