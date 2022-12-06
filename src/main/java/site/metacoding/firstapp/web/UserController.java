@@ -29,7 +29,7 @@ public class UserController {
 	// 회원가입 페이지
 	@GetMapping("/user/joinForm")
 	public CMRespDto<?> joinForm() {
-		return new CMRespDto<>(1, "회원가입 페이지 불러오기 성공", null);
+		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", null);
 	}
 
 	// 회원가입 응답
