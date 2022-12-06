@@ -29,9 +29,14 @@
     <select id="findByUsername" resultType="site.metacoding.firstapp.domain.user.User">
         SELECT *
 		FROM user
-		where username = #{username}
+		WHERE username = #{username}
     </select>
 
+	<select id="login"
+		resultType="site.metacoding.firstapp.web.dto.response.LoginRespDto">
+		SELECT * FROM user 
+		WHERE username=#{username} AND password = #{password}
+	</select>
 </mapper>
     
 
