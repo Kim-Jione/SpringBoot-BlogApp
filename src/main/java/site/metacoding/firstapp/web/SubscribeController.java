@@ -1,18 +1,13 @@
 package site.metacoding.firstapp.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.service.SubscribeService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.response.subscribe.SubscribeRespDto;
