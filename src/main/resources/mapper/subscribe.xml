@@ -35,7 +35,7 @@
 	
 
     <select id="findByUserIdAndUsersId" resultType="Integer">
-        SELECT subscribe_Id
+        SELECT subscribe_id
     	FROM subscribe
     	WHERE user_id = #{userId} and users_id = #{usersId}
     </select>
