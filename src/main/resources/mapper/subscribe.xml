@@ -33,6 +33,13 @@
 		DELETE FROM subscribe WHERE subscribe_id = #{subscribeId}
 	</delete>
 	
+
+    <select id="findByUserIdAndUsersId" resultType="Integer">
+        SELECT subscribe_Id
+    	FROM subscribe
+    	WHERE user_id = #{userId} and users_id = #{usersId}
+    </select>
+
 </mapper>
 
 
