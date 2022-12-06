@@ -32,6 +32,10 @@
 		DELETE FROM love WHERE love_id = #{loveId}
 	</delete>
 
-
+    <select id="loveResult" resultType="site.metacoding.firstapp.web.dto.response.love.LoveRespDto">
+          SELECT *
+		  FROM love
+		  WHERE user_id = #{userId} AND post_id = #{postId}
+    </select>
 
 </mapper>

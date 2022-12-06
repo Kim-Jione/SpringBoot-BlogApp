@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.service.PostService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
@@ -28,7 +27,6 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 public class PostController {
 	private final HttpSession session;
 	private final PostService postService;
-	private final PostDao postDao;
 
 	// 게시글등록 페이지
 	@GetMapping("/post/writeForm")
