@@ -2,6 +2,7 @@ package site.metacoding.firstapp.domain.user;
 
 import java.sql.Timestamp;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +17,13 @@ public class User {
 	private String profileImg;
 	private Timestamp updatedAt;
 	private Timestamp createdAt;
+
+	@Builder
+	public User(String username, String nickname, String password, String email) {
+		super();
+		this.username = username;
+		this.nickname = nickname;
+		this.password = password;
+		this.email = email;
+	}
 }
