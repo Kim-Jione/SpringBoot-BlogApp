@@ -24,4 +24,11 @@ public class Post {
 		this.postThumnail = postThumnail;
 	}
 
+	public Post(Integer userId, Integer postId,String postTitle, String postContent, String postThumnail) {
+		this.userId = userId;
+		this.postId = postId;
+		this.postTitle = postTitle;
+		this.postContent = postContent;
+		this.postThumnail = postThumnail;
+	}
 }
