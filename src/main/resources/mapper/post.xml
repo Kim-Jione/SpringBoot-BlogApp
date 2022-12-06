@@ -32,5 +32,13 @@
 	<delete id="delete">
 		DELETE FROM post WHERE post_id = #{postId}
 	</delete>
+
+	<select id="saveResult" resultType="site.metacoding.firstapp.web.dto.response.post.SaveRespDto">
+    SELECT *
+    FROM post
+    WHERE user_id = #{userId}
+    ORDER BY post_id desc
+	FETCH NEXT 1 ROWS ONLY
+    </select>
 	
 </mapper>
