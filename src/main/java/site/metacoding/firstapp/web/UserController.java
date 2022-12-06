@@ -17,6 +17,7 @@ import site.metacoding.firstapp.web.dto.request.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.LoginRespDto;
+import site.metacoding.firstapp.web.dto.response.SessionUserDto;
 
 @RequiredArgsConstructor
 @RestController
@@ -51,23 +52,30 @@ public class UserController {
 	// 로그인 응답
 	@PostMapping("/user/login")
 	public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto) {
-		LoginRespDto principal = userDao.login(loginReqDto);
+		SessionUserDto principal = userDao.login(loginReqDto);
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인실패", null);
 		}
 		session.setAttribute("principal", principal);
-		return new CMRespDto<>(1, "로그인성공", principal);
+		LoginRespDto loginRespDto = new LoginRespDto(loginReqDto);
+		return new CMRespDto<>(1, "로그인성공", loginRespDto);
 	}
 
 	// 로그아웃
 	@GetMapping("/user/logout")
 	public CMRespDto<?> logout() {
-		LoginRespDto userPS = (LoginRespDto) session.getAttribute("principal");
+		SessionUserDto userPS = (SessionUserDto) session.getAttribute("principal");
 		if (userPS == null) {
 			return new CMRespDto<>(-1, "로그아웃 실패", null);
 		}
 		session.removeAttribute("principal");
 		return new CMRespDto<>(1, "로그아웃 성공", userPS);
+	}
+
+	// 개인정보 수정페이지
+	@GetMapping("/user/updateForm")
+	public CMRespDto<?> updateForm() {
+		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", null);
 	}
 
 }
