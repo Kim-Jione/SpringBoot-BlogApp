@@ -29,14 +29,13 @@ public class PostController {
 		if (principal == null) {
 			return new CMRespDto<>(1, "로그인을 진행해주세요.", null);
 		}
-		return new CMRespDto<>(1, "게시글 등록 페이지 불러오기 성공", principal);
+		return new CMRespDto<>(1, "게시글 등록 페이지 불러오기 성공", null);
 	}
 
 	// 게시글 등록 응답
 	@PostMapping("/post/write")
 	public @ResponseBody CMRespDto<?> write(@RequestBody SaveReqDto saveReqDto) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		System.out.println("디버그 principal : "+ principal.getUserId());
 		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal);
 		return new CMRespDto<>(1, "게시글등록 성공", saveRespDto);
 	}
