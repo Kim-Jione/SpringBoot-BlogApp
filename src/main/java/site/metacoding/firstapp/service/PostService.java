@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.request.post.UpdateReqDto;
+import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -29,4 +30,12 @@ public class PostService {
 		UpdateRespDto updateRespDto = postDao.updateResult(principal.getUserId());
 		return updateRespDto;
 	}
+
+	@Transactional
+	public DeleteRespDto 게시글삭제하기(Integer postId) {
+		DeleteRespDto deleteRespDto = postDao.deleteResult(postId);
+		postDao.delete(postId);
+		return deleteRespDto;
+	}
+
 }

@@ -49,4 +49,9 @@
 	FETCH NEXT 1 ROWS ONLY
     </select>
 
+    <select id="deleteResult" resultType="site.metacoding.firstapp.web.dto.response.post.DeleteRespDto">
+    	SELECT *
+    	FROM post
+    	WHERE post_id=#{postId}
+    </select>
 </mapper>
