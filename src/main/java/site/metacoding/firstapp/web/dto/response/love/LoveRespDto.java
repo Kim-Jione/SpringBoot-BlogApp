@@ -10,9 +10,9 @@ public class LoveRespDto {
 	private Integer userId;
 	private Integer postId;
 
-	public LoveRespDto(Integer userId, Integer postId) {
+	public LoveRespDto(Integer loveId, Integer userId, Integer postId) {
+		this.loveId = loveId;
 		this.userId = userId;
 		this.postId = postId;
 	}
-
 }

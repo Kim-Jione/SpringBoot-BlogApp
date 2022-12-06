@@ -2,14 +2,12 @@ package site.metacoding.firstapp.web;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.firstapp.domain.subscribe.Subscribe;
 import site.metacoding.firstapp.service.SubscribeService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.response.subscribe.SubscribeRespDto;
@@ -22,8 +20,8 @@ public class SubscribeController {
 	private final HttpSession session;
 
 	// 구독 응답
-	@PostMapping("/subscribe/{usersId}") // 구독대상
-	public @ResponseBody CMRespDto<?> companySubscribe(@PathVariable Integer usersId, Model model) {
+	@PostMapping("/subscribe/{usersId}") // 구독한 회원
+	public @ResponseBody CMRespDto<?> subscribe(@PathVariable Integer usersId) {
 
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
@@ -34,16 +32,19 @@ public class SubscribeController {
 		if (principal.getUserId() == usersId) {
 			return new CMRespDto<>(-1, "자신은 구독이 안됩니다.", null);
 		}
+
 		Integer subscribeId = subscribeService.구독Id불러오기(principal.getUserId(), usersId);
 
 		if (subscribeId == null) {
 			subscribeService.구독하기(principal.getUserId(), usersId);
+			
 			subscribeId = subscribeService.구독Id불러오기(principal.getUserId(), usersId);
+
 			SubscribeRespDto subscribeRespDto = new SubscribeRespDto(subscribeId, principal.getUserId(), usersId);
-			return new CMRespDto<>(1, "구독 완료", subscribeRespDto);
+			return new CMRespDto<>(1, "구독 성공", subscribeRespDto);
 		}
 		SubscribeRespDto subscribeRespDto = new SubscribeRespDto(subscribeId, principal.getUserId(), usersId);
 		subscribeService.구독취소(subscribeId);
-		return new CMRespDto<>(1, "구독 취소 완료", subscribeRespDto);
+		return new CMRespDto<>(1, "구독 취소 성공", subscribeRespDto);
 	}
 }
