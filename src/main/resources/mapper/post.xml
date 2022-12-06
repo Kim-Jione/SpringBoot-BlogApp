@@ -54,4 +54,14 @@
     	FROM post
     	WHERE post_id=#{postId}
     </select>
+
+	<select id="findByDetail" resultType="site.metacoding.firstapp.web.dto.response.post.DetailRespDto">
+    	SELECT *
+		FROM post p
+		LEFT JOIN user u 
+		ON p.user_id = u.user_id
+		WHERE post_id=#{postId}
+    </select>
+
+
 </mapper>

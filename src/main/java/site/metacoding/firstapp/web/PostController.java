@@ -2,7 +2,6 @@ package site.metacoding.firstapp.web;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.service.PostService;
+import site.metacoding.firstapp.service.VisitService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.request.post.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
+import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -27,10 +28,11 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 public class PostController {
 	private final HttpSession session;
 	private final PostService postService;
+	private final VisitService visitService;
 
 	// 게시글등록 페이지
 	@GetMapping("/post/writeForm")
-	public CMRespDto<?> writeForm(Model model) {
+	public CMRespDto<?> writeForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
@@ -51,7 +53,7 @@ public class PostController {
 
 	// 게시글수정 페이지
 	@GetMapping("/post/updateForm")
-	public CMRespDto<?> updateForm(Model model) {
+	public CMRespDto<?> updateForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
@@ -81,4 +83,19 @@ public class PostController {
 		return new CMRespDto<>(1, "게시글 삭제 성공", deleteRespDto);
 	}
 
+	// 게시글 상세보기 페이지
+	@GetMapping("/post/detailForm/{postId}")
+	public CMRespDto<?> detailForm(@PathVariable Integer postId) {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		Integer visitId = visitService.방문한Id불러오기(principal.getUserId(), postId);
+		if (visitId == null) {
+			visitService.방문기록추가하기(principal.getUserId(), postId);
+			return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기및 방문기록추가 성공", null);
+		}
+		DetailRespDto detailRespDto = postService.게시글상세보기(postId);
+		return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기 성공", detailRespDto);
+	}
 }

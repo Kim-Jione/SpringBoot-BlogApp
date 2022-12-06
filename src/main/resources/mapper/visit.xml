@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.metacoding.firstapp.domain.love.LoveDao">
+<mapper namespace="site.metacoding.firstapp.domain.visit.VisitDao">
 
 	<select id="findById"
 		resultType="site.metacoding.firstapp.domain.visit.Visit">
@@ -16,7 +16,7 @@
 		WHERE visit_id=#{visitId}
 	</select>
 
-	<insert id="insert" useGeneratedKeys="true" keyProperty="visitId">
+	<insert id="insert">
 		INSERT
 		INTO visit(post_id, user_id)
 		VALUES(#{postId}, #{userId})
@@ -32,4 +32,16 @@
 		DELETE FROM visit WHERE visit_id = #{visitId}
 	</delete>
 
+	<select id="findByUserIdAndPostId" resultType="Integer">
+        SELECT visit_id
+    	FROM visit
+    	WHERE user_id = #{userId} and post_id = #{postId}
+    </select>
+
+	<insert id="save">
+        INSERT
+		INTO visit(user_id, post_id)
+		VALUES(#{userId},#{postId})
+    </insert>
+	
 </mapper>
