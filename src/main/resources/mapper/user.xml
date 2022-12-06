@@ -25,6 +25,13 @@
 		DELETE FROM user WHERE user_id = #{userId}
 	</delete>
 
+
+    <select id="findByUsername" resultType="site.metacoding.firstapp.domain.user.User">
+        SELECT *
+		FROM user
+		where username = #{username}
+    </select>
+
 </mapper>
     
 
