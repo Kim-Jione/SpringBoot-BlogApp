@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import site.metacoding.firstapp.web.dto.response.love.ListRespDto;
+
 public interface LoveDao {
 
 	public Love findById(Integer loveId);
@@ -17,4 +19,6 @@ public interface LoveDao {
 	public void delete(Integer loveId);
 
 	public Integer findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
+
+	public List<ListRespDto> findPostList(Integer userId);
 }

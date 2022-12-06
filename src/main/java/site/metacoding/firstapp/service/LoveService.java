@@ -1,10 +1,13 @@
 package site.metacoding.firstapp.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.love.Love;
 import site.metacoding.firstapp.domain.love.LoveDao;
+import site.metacoding.firstapp.web.dto.response.love.ListRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +26,11 @@ public class LoveService {
 
 	public void 좋아요취소(Integer loveId) {
 		loveDao.delete(loveId);
+	}
+
+	public List<ListRespDto> 좋아요한게시글목록보기(Integer userId) {
+		List<ListRespDto> listRespDto = loveDao.findPostList(userId);
+		return listRespDto;
 	}
 
 }
