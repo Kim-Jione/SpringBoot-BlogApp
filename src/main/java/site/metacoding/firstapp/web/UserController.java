@@ -69,7 +69,8 @@ public class UserController {
 			return new CMRespDto<>(-1, "로그아웃 실패", null);
 		}
 		session.removeAttribute("principal");
-		return new CMRespDto<>(1, "로그아웃 성공", userPS);
+		LoginRespDto loginRespDto = new LoginRespDto(userPS);
+		return new CMRespDto<>(1, "로그아웃 성공", loginRespDto);
 	}
 
 	// 개인정보 수정페이지

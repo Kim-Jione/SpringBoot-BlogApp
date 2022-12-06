@@ -14,4 +14,9 @@ public class LoginRespDto {
 		this.username = loginReqDto.getUsername();
 		this.password = loginReqDto.getPassword();
 	}
+
+	public LoginRespDto(SessionUserDto userPS) {
+		this.username = userPS.getUsername();
+		this.password = userPS.getPassword();
+	}
 }
