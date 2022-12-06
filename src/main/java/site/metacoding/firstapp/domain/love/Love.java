@@ -11,4 +11,9 @@ public class Love {
 	private Integer postId;
 	private Timestamp updatedAt;
 	private Timestamp createdAt;
+
+	public Love(Integer userId, Integer postId) {
+		this.userId = userId;
+		this.postId = postId;
+	}
 }
