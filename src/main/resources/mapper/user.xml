@@ -37,6 +37,16 @@
 		FROM user 
 		WHERE username=#{username} AND password = #{password}
 	</select>
+
+	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.user.PostRespDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
+		u.	profile_img
+		FROM post p
+		INNER JOIN user u 
+		ON p.user_id=u.user_id
+		WHERE p.user_id=#{userId}
+    </select>
+
 </mapper>
     
 

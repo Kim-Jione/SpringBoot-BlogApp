@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.love.Love;
 import site.metacoding.firstapp.domain.love.LoveDao;
-import site.metacoding.firstapp.web.dto.response.love.ListRespDto;
+import site.metacoding.firstapp.web.dto.response.love.PostRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -28,9 +28,9 @@ public class LoveService {
 		loveDao.delete(loveId);
 	}
 
-	public List<ListRespDto> 좋아요한게시글목록보기(Integer userId) {
-		List<ListRespDto> listRespDto = loveDao.findPostList(userId);
-		return listRespDto;
+	public List<PostRespDto> 좋아요한게시글목록보기(Integer userId) {
+		List<PostRespDto> postRespDto = loveDao.findPostList(userId);
+		return postRespDto;
 	}
 
 }

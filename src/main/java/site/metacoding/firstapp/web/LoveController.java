@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.service.LoveService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
-import site.metacoding.firstapp.web.dto.response.love.ListRespDto;
+import site.metacoding.firstapp.web.dto.response.love.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.love.LoveRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
@@ -47,15 +47,15 @@ public class LoveController {
 	}
 
 	// 좋아요한 게시글 목록 페이지
-	@GetMapping("/love/listForm")
-	public @ResponseBody CMRespDto<?> ListForm() {
+	@GetMapping("/love/post/listForm")
+	public @ResponseBody CMRespDto<?> postListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
 
-		List<ListRespDto> listRespDto = loveService.좋아요한게시글목록보기(principal.getUserId());
-		return new CMRespDto<>(1, "구독목록 페이지 성공", listRespDto);
+		List<PostRespDto> postRespDto = loveService.좋아요한게시글목록보기(principal.getUserId());
+		return new CMRespDto<>(1, "좋아요 목록 페이지 성공", postRespDto);
 	}
 }

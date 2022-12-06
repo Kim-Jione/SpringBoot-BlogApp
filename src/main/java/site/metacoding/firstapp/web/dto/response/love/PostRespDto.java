@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ListRespDto {
+public class PostRespDto {
 	private Integer loveId;
 	private Integer userId;
 	private Integer postId;
