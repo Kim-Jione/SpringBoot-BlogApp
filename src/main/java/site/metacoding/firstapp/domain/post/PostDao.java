@@ -8,6 +8,7 @@ import site.metacoding.firstapp.web.dto.response.post.BusinessListDto;
 import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
+import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
@@ -34,9 +35,11 @@ public interface PostDao {
 
 	public UpdateRespDto findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
-	public List<PostRespDto> findPostList(Integer userId);
+	public List<PostRespDto> findMyPostList(Integer userId);
 
 	public List<DailyListDto> findDailyList();
 
 	public List<BusinessListDto> findBusinessList();
+
+	public List<ListRespDto> findPostList();
 }

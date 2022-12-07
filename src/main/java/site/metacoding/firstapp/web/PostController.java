@@ -26,6 +26,7 @@ import site.metacoding.firstapp.web.dto.response.post.BusinessListDto;
 import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
+import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
@@ -125,8 +126,8 @@ public class PostController {
 	}
 
 	// 내가 쓴 게시글 목록 페이지
-	@GetMapping("/post/listForm")
-	public @ResponseBody CMRespDto<?> postListForm() {
+	@GetMapping("/post/myListForm")
+	public @ResponseBody CMRespDto<?> myListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
 		if (principal == null) {
@@ -161,5 +162,18 @@ public class PostController {
 
 		List<BusinessListDto> businessListDto = postDao.findBusinessList();
 		return new CMRespDto<>(1, "비즈니스 목록 페이지 불러오기 성공", businessListDto);
+	}
+
+	// 메인 목록 페이지
+	@GetMapping("/post/listForm")
+	public @ResponseBody CMRespDto<?> listForm() {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+
+		List<ListRespDto> listRespDto = postDao.findPostList();
+		return new CMRespDto<>(1, "메인 목록 페이지 불러오기 성공", listRespDto);
 	}
 }
