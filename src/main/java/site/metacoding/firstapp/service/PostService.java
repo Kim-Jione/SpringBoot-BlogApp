@@ -48,7 +48,7 @@ public class PostService {
 	}
 
 	public List<PostRespDto> 내가쓴게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = postDao.findPostList(userId);
+		List<PostRespDto> psotRespDto = postDao.findMyPostList(userId);
 		return psotRespDto;
 	}
 

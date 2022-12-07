@@ -38,6 +38,13 @@
 		WHERE username=#{username} AND password = #{password}
 	</select>
 
+	<select id="findByUser"
+		resultType="site.metacoding.firstapp.web.dto.response.user.InfoRespDto">
+		SELECT * 
+		FROM user 
+		WHERE user_id=#{userId}
+	</select>
+
 </mapper>
     
 

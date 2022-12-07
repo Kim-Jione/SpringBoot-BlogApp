@@ -70,8 +70,8 @@
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 	
-	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.PostRespDto">
-        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, p.role
+	<select id="findMyPostList" resultType="site.metacoding.firstapp.web.dto.response.post.PostRespDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, p.role,
 		u.	profile_img
 		FROM post p
 		INNER JOIN user u 
@@ -79,4 +79,28 @@
 		WHERE p.user_id=#{userId}
 		ORDER BY p.post_id DESC
     </select>
+
+	 <select id="findDailyList" resultType="site.metacoding.firstapp.web.dto.response.post.DailyListDto">
+        SELECT *
+		FROM post p
+		INNER JOIN user u
+		ON p.user_id = u.user_id
+		WHERE role='daily'
+    </select>
+
+	<select id="findBusinessList" resultType="site.metacoding.firstapp.web.dto.response.post.BusinessListDto">
+        SELECT *
+		FROM post p
+		INNER JOIN user u
+		ON p.user_id = u.user_id
+		WHERE role='business'
+    </select>
+
+	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.ListRespDto">
+        SELECT *
+		FROM post p
+		INNER JOIN user u
+		ON p.user_id = u.user_id
+    </select>
+
 </mapper>
