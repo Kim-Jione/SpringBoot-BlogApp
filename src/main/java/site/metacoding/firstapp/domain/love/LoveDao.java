@@ -17,4 +17,5 @@ public interface LoveDao {
 	public void delete(Integer loveId);
 
 	public Integer findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
+
 }

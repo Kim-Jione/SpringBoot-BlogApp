@@ -9,6 +9,7 @@ import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.request.post.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
+import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -37,6 +38,11 @@ public class PostService {
 		DeleteRespDto deleteRespDto = postDao.deleteResult(postId);
 		postDao.delete(postId);
 		return deleteRespDto;
+	}
+
+	public DetailRespDto 게시글상세보기(Integer postId) {
+		DetailRespDto detailRespDto = postDao.findByDetail(postId);
+		return detailRespDto;
 	}
 
 }

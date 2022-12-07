@@ -37,7 +37,7 @@ public class SubscribeController {
 
 		if (subscribeId == null) {
 			subscribeService.구독하기(principal.getUserId(), usersId);
-			
+
 			subscribeId = subscribeService.구독Id불러오기(principal.getUserId(), usersId);
 
 			SubscribeRespDto subscribeRespDto = new SubscribeRespDto(subscribeId, principal.getUserId(), usersId);
@@ -47,4 +47,5 @@ public class SubscribeController {
 		subscribeService.구독취소(subscribeId);
 		return new CMRespDto<>(1, "구독 취소 성공", subscribeRespDto);
 	}
+	
 }

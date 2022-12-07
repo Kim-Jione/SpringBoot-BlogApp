@@ -3,6 +3,7 @@ package site.metacoding.firstapp.domain.user;
 import java.util.List;
 
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 public interface UserDao {
@@ -18,4 +19,10 @@ public interface UserDao {
 	public User findByUsername(String username);
 
 	public SessionUserDto login(LoginReqDto loginReqDto);
+
+	public List<PostRespDto> findPostList(Integer userId);
+
+	public List<PostRespDto> findVisitList(Integer userId);
+
+	public List<PostRespDto> findLoveList(Integer userId);
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
+import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 
@@ -26,4 +27,8 @@ public interface PostDao {
 	public UpdateRespDto updateResult(Integer userId);
 
 	public DeleteRespDto deleteResult(Integer postId);
+
+	public DetailRespDto findByDetail(Integer postId);
+
+	public UpdateRespDto findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
 }
