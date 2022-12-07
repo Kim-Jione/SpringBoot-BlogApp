@@ -95,4 +95,17 @@ public class UserController {
 		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
 	}
 
+	// 내가 방문한 게시글 목록 페이지
+	@GetMapping("/user/visit/listForm")
+	public @ResponseBody CMRespDto<?> visitListForm() {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+
+		List<PostRespDto> postRespDto = userService.내가방문한게시글목록보기(principal.getUserId());
+		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
+	}
+
 }

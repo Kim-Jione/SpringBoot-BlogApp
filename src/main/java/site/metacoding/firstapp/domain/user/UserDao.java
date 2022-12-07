@@ -21,4 +21,6 @@ public interface UserDao {
 	public SessionUserDto login(LoginReqDto loginReqDto);
 
 	public List<PostRespDto> findPostList(Integer userId);
+
+	public List<PostRespDto> findVisitList(Integer userId);
 }

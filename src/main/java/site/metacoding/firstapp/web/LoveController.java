@@ -48,7 +48,7 @@ public class LoveController {
 
 	// 좋아요한 게시글 목록 페이지
 	@GetMapping("/love/post/listForm")
-	public @ResponseBody CMRespDto<?> postListForm() {
+	public @ResponseBody CMRespDto<?> loveListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
 		if (principal == null) {

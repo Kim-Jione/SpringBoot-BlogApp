@@ -47,6 +47,17 @@
 		WHERE p.user_id=#{userId}
     </select>
 
+	<select id="findVisitList" resultType="site.metacoding.firstapp.web.dto.response.user.PostRespDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
+		u.	profile_img
+		FROM post p
+		INNER JOIN visit v
+		ON p.post_id = v.post_id
+		INNER JOIN user u 
+		ON v.user_id = u.user_id
+		WHERE v.user_id=#{userId}
+    </select>
+
 </mapper>
     
 
