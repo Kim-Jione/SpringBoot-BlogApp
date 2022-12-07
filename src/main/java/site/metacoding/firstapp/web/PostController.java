@@ -165,8 +165,8 @@ public class PostController {
 	}
 
 	// 메인 목록 페이지
-	@GetMapping("/post/listForm/{keyword}")
-	public @ResponseBody CMRespDto<?> listForm(@PathVariable String keyword) {
+	@GetMapping("/post/listForm")
+	public @ResponseBody CMRespDto<?> listForm( String keyword) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
 		if (principal == null) {
