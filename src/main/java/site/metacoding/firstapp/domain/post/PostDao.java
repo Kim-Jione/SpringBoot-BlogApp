@@ -41,5 +41,5 @@ public interface PostDao {
 
 	public List<BusinessListDto> findBusinessList();
 
-	public List<ListRespDto> findPostList();
+	public List<ListRespDto> findPostList(String keyword);
 }

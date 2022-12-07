@@ -90,7 +90,7 @@ public class PostController {
 		if (postPS == null) {
 			return new CMRespDto<>(-1, "해당 게시글이 존재하지 않습니다.", null);
 		}
-		if(principal.getUserId()!=postPS.getUserId()){
+		if (principal.getUserId() != postPS.getUserId()) {
 			return new CMRespDto<>(-1, "본인이 작성한 게시글이 아닙니다.", null);
 		}
 		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal);
@@ -165,15 +165,20 @@ public class PostController {
 	}
 
 	// 메인 목록 페이지
-	@GetMapping("/post/listForm")
-	public @ResponseBody CMRespDto<?> listForm() {
+	@GetMapping("/post/listForm/{keyword}")
+	public @ResponseBody CMRespDto<?> listForm(@PathVariable String keyword) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
+		if (keyword == null || keyword.isEmpty()) {
+			List<ListRespDto> listRespDto = postDao.findPostList(null);
+			return new CMRespDto<>(1, "메인 목록 페이지 불러오기 성공", listRespDto);
+		}
+		List<ListRespDto> listRespDto = postDao.findPostList(keyword);
+		return new CMRespDto<>(1, "검색 목록 페이지 불러오기 성공", listRespDto);
 
-		List<ListRespDto> listRespDto = postDao.findPostList();
-		return new CMRespDto<>(1, "메인 목록 페이지 불러오기 성공", listRespDto);
 	}
+
 }

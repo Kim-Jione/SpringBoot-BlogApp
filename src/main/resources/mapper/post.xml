@@ -98,9 +98,11 @@
 
 	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.ListRespDto">
         SELECT *
-		FROM post p
-		INNER JOIN user u
-		ON p.user_id = u.user_id
+		FROM user u 
+		LEFT JOIN post p
+		ON u.user_id = p.user_id
+		WHERE p.post_title LIKE '%${keyword}%' 
+		ORDER BY p.post_id DESC
     </select>
 
 </mapper>
