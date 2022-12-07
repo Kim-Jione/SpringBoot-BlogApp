@@ -69,4 +69,13 @@
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 	
+	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.PostRespDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
+		u.	profile_img
+		FROM post p
+		INNER JOIN user u 
+		ON p.user_id=u.user_id
+		WHERE p.user_id=#{userId}
+		ORDER BY p.post_id DESC
+    </select>
 </mapper>

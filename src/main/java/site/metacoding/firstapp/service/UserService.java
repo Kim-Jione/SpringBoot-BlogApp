@@ -30,18 +30,4 @@ public class UserService {
 		return userPS;
 	}
 
-	public List<PostRespDto> 내가쓴게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = userDao.findPostList(userId);
-		return psotRespDto;
-	}
-
-	public List<PostRespDto> 내가방문한게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = userDao.findVisitList(userId);
-		return psotRespDto;
-	}
-
-	public List<PostRespDto> 좋아요한게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = userDao.findLoveList(userId);
-		return psotRespDto;
-	}
 }
