@@ -22,6 +22,7 @@ import site.metacoding.firstapp.service.VisitService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.request.post.UpdateReqDto;
+import site.metacoding.firstapp.web.dto.response.post.BusinessListDto;
 import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
@@ -146,6 +147,19 @@ public class PostController {
 		}
 
 		List<DailyListDto> dailyListDto = postDao.findDailyList();
-		return new CMRespDto<>(1, "일상 목록 페이지 성공", dailyListDto);
+		return new CMRespDto<>(1, "일상 목록 페이지 불러오기 성공", dailyListDto);
+	}
+
+	// 비즈니스 목록 페이지
+	@GetMapping("/post/businessListForm")
+	public @ResponseBody CMRespDto<?> businessListForm() {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+
+		List<BusinessListDto> businessListDto = postDao.findBusinessList();
+		return new CMRespDto<>(1, "비즈니스 목록 페이지 불러오기 성공", businessListDto);
 	}
 }
