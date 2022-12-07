@@ -17,15 +17,16 @@
 
 	<insert id="insert">
 		INSERT
-		INTO post(post_title, post_content, post_thumnail, user_id, updated_at, created_at)
-		VALUES(#{postTitle}, #{postContent}, #{postThumnail}, #{userId},  now(), now())
+		INTO post(post_title,post_content, post_thumnail, user_id,role, updated_at, created_at)
+		VALUES(#{postTitle}, #{postContent}, #{postThumnail}, #{userId}, #{role} ,now(), now())
 	</insert>
 
     <update id="update">
           UPDATE post
 		  SET post_title = #{postTitle},
 		  post_content = #{postContent},
-		  post_thumnail = #{postThumnail}
+		  post_thumnail = #{postThumnail},
+		  role = #{role}
 		  WHERE post_id=#{postId}
     </update>
 
@@ -70,7 +71,7 @@
     </select>
 	
 	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.PostRespDto">
-        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, p.role
 		u.	profile_img
 		FROM post p
 		INNER JOIN user u 
