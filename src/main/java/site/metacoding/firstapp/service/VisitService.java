@@ -1,9 +1,12 @@
 package site.metacoding.firstapp.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.visit.VisitDao;
+import site.metacoding.firstapp.web.dto.response.visit.PostRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +20,11 @@ public class VisitService {
 
 	public void 방문기록추가하기(Integer userId, Integer postId) {
 		visitDao.save(userId, postId);
+	}
+
+	public List<PostRespDto> 내가방문한게시글목록보기(Integer userId) {
+		List<PostRespDto> psotRespDto = visitDao.findVisitList(userId);
+		return psotRespDto;
 	}
 
 }

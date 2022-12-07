@@ -1,5 +1,7 @@
 package site.metacoding.firstapp.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.firstapp.domain.post.Post;
 import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.domain.visit.Visit;
 import site.metacoding.firstapp.service.PostService;
@@ -21,6 +24,7 @@ import site.metacoding.firstapp.web.dto.request.post.SaveReqDto;
 import site.metacoding.firstapp.web.dto.request.post.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
+import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -50,6 +54,9 @@ public class PostController {
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
+		if (saveReqDto.getUserId() != principal.getUserId()) {
+			return new CMRespDto<>(-1, "로그인 아이디가 다릅니다.", null);
+		}
 		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal);
 		return new CMRespDto<>(1, "게시글등록 성공", saveRespDto);
 	}
@@ -62,10 +69,10 @@ public class PostController {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
 		UpdateRespDto updateRespDto = postDao.findByUserIdAndPostId(principal.getUserId(), postId);
-		if(updateRespDto==null){
+		if (updateRespDto == null) {
 			return new CMRespDto<>(-1, "내가 쓴 글이 아닙니다.", null);
 		}
-		System.out.println("디버그 "+ updateRespDto.getPostTitle());
+		System.out.println("디버그 " + updateRespDto.getPostTitle());
 		return new CMRespDto<>(1, "게시글 수정 페이지 불러오기 성공", updateRespDto);
 	}
 
@@ -75,6 +82,10 @@ public class PostController {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		Post postPS = postDao.findById(updateReqDto.getPostId());
+		if (postPS == null) {
+			return new CMRespDto<>(-1, "해당 게시글이 존재하지 않습니다.", null);
 		}
 		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal);
 		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
@@ -101,10 +112,23 @@ public class PostController {
 		Integer visitId = visitService.방문한Id불러오기(principal.getUserId(), postId);
 		if (visitId == null) {
 			visitService.방문기록추가하기(principal.getUserId(), postId);
-			Visit visit = new Visit(visitId,principal.getUserId(), postId);
+			Visit visit = new Visit(visitId, principal.getUserId(), postId);
 			return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기및 방문기록추가 성공", visit);
 		}
 		DetailRespDto detailRespDto = postService.게시글상세보기(postId);
 		return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기 성공", detailRespDto);
+	}
+
+	// 내가 쓴 게시글 목록 페이지
+	@GetMapping("/post/listForm")
+	public @ResponseBody CMRespDto<?> postListForm() {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+
+		List<PostRespDto> postRespDto = postService.내가쓴게시글목록보기(principal.getUserId());
+		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
 	}
 }
