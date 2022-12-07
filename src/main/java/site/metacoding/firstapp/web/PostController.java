@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.firstapp.domain.post.Post;
+import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.domain.visit.Visit;
 import site.metacoding.firstapp.service.PostService;
 import site.metacoding.firstapp.service.VisitService;
@@ -29,6 +31,7 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 public class PostController {
 	private final HttpSession session;
 	private final PostService postService;
+	private final PostDao postDao;
 	private final VisitService visitService;
 
 	// 게시글등록 페이지
@@ -53,13 +56,18 @@ public class PostController {
 	}
 
 	// 게시글수정 페이지
-	@GetMapping("/post/updateForm")
-	public CMRespDto<?> updateForm() {
+	@GetMapping("/post/updateForm/{postId}")
+	public CMRespDto<?> updateForm(@PathVariable Integer postId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
-		return new CMRespDto<>(1, "게시글 수정 페이지 불러오기 성공", null);
+		UpdateRespDto updateRespDto = postDao.findByUserIdAndPostId(principal.getUserId(), postId);
+		if(updateRespDto==null){
+			return new CMRespDto<>(-1, "내가 쓴 글이 아닙니다.", null);
+		}
+		System.out.println("디버그 "+ updateRespDto.getPostTitle());
+		return new CMRespDto<>(1, "게시글 수정 페이지 불러오기 성공", updateRespDto);
 	}
 
 	// 게시글 수정 응답

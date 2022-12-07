@@ -63,5 +63,10 @@
 		WHERE post_id=#{postId}
     </select>
 
-
+ 	<select id="findByUserIdAndPostId" resultType="site.metacoding.firstapp.web.dto.response.post.UpdateRespDto">
+        SELECT *
+    	FROM post
+    	WHERE user_id = #{userId} and post_id = #{postId}
+    </select>
+	
 </mapper>
