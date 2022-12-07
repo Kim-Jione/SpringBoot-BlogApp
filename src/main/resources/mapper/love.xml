@@ -38,14 +38,4 @@
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 
-	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.love.PostRespDto">
-        SELECT l.love_id, l.user_id, l.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.nickname, u.profile_img, p.updated_at
-		FROM (SELECT * FROM love WHERE user_id=#{userId}) l
-		INNER JOIN post p
-		ON l.post_id = p.post_id
-		INNER JOIN user u
-		ON p.user_id=u.user_id
-		ORDER BY l.love_id DESC
-    </select>
-
 </mapper>

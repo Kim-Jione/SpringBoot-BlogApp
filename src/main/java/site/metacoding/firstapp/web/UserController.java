@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
+import site.metacoding.firstapp.service.LoveService;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
@@ -26,6 +27,7 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 @RestController
 public class UserController {
 	private final UserService userService;
+	private final LoveService loveService;
 	private final HttpSession session;
 	private final UserDao userDao;
 
@@ -108,4 +110,16 @@ public class UserController {
 		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
 	}
 
+	// 좋아요한 게시글 목록 페이지
+	@GetMapping("/user/love/listForm")
+	public @ResponseBody CMRespDto<?> loveListForm() {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+
+		List<PostRespDto> postRespDto = userService.좋아요한게시글목록보기(principal.getUserId());
+		return new CMRespDto<>(1, "좋아요 목록 페이지 성공", postRespDto);
+	}
 }

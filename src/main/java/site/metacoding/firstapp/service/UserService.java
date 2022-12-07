@@ -39,4 +39,9 @@ public class UserService {
 		List<PostRespDto> psotRespDto = userDao.findVisitList(userId);
 		return psotRespDto;
 	}
+
+	public List<PostRespDto> 좋아요한게시글목록보기(Integer userId) {
+		List<PostRespDto> psotRespDto = userDao.findLoveList(userId);
+		return psotRespDto;
+	}
 }

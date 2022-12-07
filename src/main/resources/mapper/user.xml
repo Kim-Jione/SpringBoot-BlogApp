@@ -45,6 +45,7 @@
 		INNER JOIN user u 
 		ON p.user_id=u.user_id
 		WHERE p.user_id=#{userId}
+		ORDER BY v.post_id DESC
     </select>
 
 	<select id="findVisitList" resultType="site.metacoding.firstapp.web.dto.response.user.PostRespDto">
@@ -56,6 +57,17 @@
 		INNER JOIN user u 
 		ON v.user_id = u.user_id
 		WHERE v.user_id=#{userId}
+		ORDER BY v.post_id DESC
+    </select>
+
+	<select id="findLoveList" resultType="site.metacoding.firstapp.web.dto.response.user.PostRespDto">
+       SELECT l.love_id, l.user_id, l.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.nickname, u.profile_img, p.updated_at
+		FROM (SELECT * FROM love WHERE user_id=#{userId}) l
+		INNER JOIN post p
+		ON l.post_id = p.post_id
+		INNER JOIN user u
+		ON p.user_id=u.user_id
+		ORDER BY l.post_id DESC
     </select>
 
 </mapper>

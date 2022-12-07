@@ -23,4 +23,6 @@ public interface UserDao {
 	public List<PostRespDto> findPostList(Integer userId);
 
 	public List<PostRespDto> findVisitList(Integer userId);
+
+	public List<PostRespDto> findLoveList(Integer userId);
 }

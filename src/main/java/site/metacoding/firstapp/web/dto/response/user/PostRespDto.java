@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class PostRespDto {
 	private Integer postId;
+	private Integer loveId;
 	private Integer userId;
 	private String postTitle;
 	private String postContent;
