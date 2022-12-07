@@ -1,7 +1,5 @@
 package site.metacoding.firstapp.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +16,9 @@ import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LoginRespDto;
-import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class UserController {
 	// 회원가입 페이지
 	@GetMapping("/user/joinForm")
 	public CMRespDto<?> joinForm() {
-		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", null);
+		return new CMRespDto<>(1, "회원가입 페이지 불러오기 성공", null);
 	}
 
 	// 회원가입 응답
@@ -78,10 +76,15 @@ public class UserController {
 		return new CMRespDto<>(1, "로그아웃 성공", loginRespDto);
 	}
 
-	// 개인정보 수정페이지
+	// 회원정보 수정페이지
 	@GetMapping("/user/updateForm")
 	public CMRespDto<?> updateForm() {
-		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", null);
-	}	
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		InfoRespDto infoRespDto = userDao.findByUser(principal.getUserId());
+		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", infoRespDto);
+	}
 
 }
