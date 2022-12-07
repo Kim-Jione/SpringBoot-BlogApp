@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
@@ -33,4 +34,6 @@ public interface PostDao {
 	public UpdateRespDto findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
 	public List<PostRespDto> findPostList(Integer userId);
+
+	public List<DailyListDto> findDailyList();
 }

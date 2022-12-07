@@ -79,4 +79,13 @@
 		WHERE p.user_id=#{userId}
 		ORDER BY p.post_id DESC
     </select>
+
+	 <select id="findDailyList" resultType="site.metacoding.firstapp.web.dto.response.post.DailyListDto">
+        SELECT *
+		FROM post p
+		INNER JOIN user u
+		ON p.user_id = u.user_id
+		WHERE role='daily'
+    </select>
+
 </mapper>
