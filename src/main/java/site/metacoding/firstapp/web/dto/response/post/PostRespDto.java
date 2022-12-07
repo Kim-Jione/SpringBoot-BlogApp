@@ -11,6 +11,7 @@ public class PostRespDto {
 	private String postTitle;
 	private String postContent;
 	private String postThumnail;
+	private String role;
 	private String username;
 	private String nickname;
 	private String profileImg;

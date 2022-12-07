@@ -12,6 +12,7 @@ public class DetailRespDto {
 	private String postTitle;
 	private String postContent;
 	private String postThumnail;
+	private String role;
 	private Integer userId;
 	private Timestamp createdAt;
 	private String username;
