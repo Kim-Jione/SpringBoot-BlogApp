@@ -1,7 +1,5 @@
 package site.metacoding.firstapp.web;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +14,6 @@ import site.metacoding.firstapp.web.dto.response.subscribe.SubscribeRespDto;
 @RestController
 public class SubscribeController {
 	private final SubscribeService subscribeService;
-	private final HttpSession session;
 
 	// 구독 응답
 	@PostMapping("/s/subscribe/{usersId}/{userId}") // 구독한 회원

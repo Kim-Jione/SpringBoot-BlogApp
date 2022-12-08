@@ -24,7 +24,7 @@ public class FilterConfig {
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtAuthenticationFilterRegister() {
         FilterRegistrationBean<JwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
                 new JwtAuthenticationFilter(userDao, sha256));
-        bean.addUrlPatterns("/login");
+        bean.addUrlPatterns("/user/login");
         bean.setOrder(1); // 낮은 순서대로 실행
         return bean;
     }

@@ -63,12 +63,11 @@ public class JwtAuthenticationFilter implements Filter { // 토큰 생성 필터
             return;
         }
 
-        // JWT토큰 유효시간 1초 = 1/1000
-        Date expire = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1시간
 
         String jwtToken = JWT.create()
                 .withSubject("메타코딩") // 토큰 이름
-                .withExpiresAt(expire) // 토큰 유효시간
+                .withExpiresAt(
+                        JwtProperties.EXPIRATION_TIME) // 토큰 유효시간
                 .withClaim("userId", usernamePS.get().getUserId()) // 토큰에 담길 정보
                 .withClaim("username", usernamePS.get().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET)); // 토큰 암호화 알고리즘 서명은 SECRET, 서버만 알고 있어야 함

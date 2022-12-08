@@ -2,8 +2,6 @@ package site.metacoding.firstapp.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +13,10 @@ import site.metacoding.firstapp.service.LoveService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.response.love.LoveRespDto;
 import site.metacoding.firstapp.web.dto.response.love.PostRespDto;
-import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @RestController
 public class LoveController {
-	private final HttpSession session;
 	private final LoveService loveService;
 
 	// 게시글 좋아요 응답

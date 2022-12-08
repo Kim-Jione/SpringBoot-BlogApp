@@ -2,8 +2,6 @@ package site.metacoding.firstapp.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +28,10 @@ import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
-import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @RestController
 public class PostController {
-	private final HttpSession session;
 	private final PostService postService;
 	private final PostDao postDao;
 	private final VisitService visitService;
