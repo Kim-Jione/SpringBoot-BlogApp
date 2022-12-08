@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter implements Filter { // 토큰 생성 필터
                 .withExpiresAt(expire) // 토큰 유효시간
                 .withClaim("userId", usernamePS.get().getUserId()) // 토큰에 담길 정보
                 .withClaim("username", usernamePS.get().getUsername())
-                .sign(Algorithm.HMAC512("6조")); // 토큰 암호화 알고리즘 서명은 6조, 서버만 알고 있어야 함
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET)); // 토큰 암호화 알고리즘 서명은 SECRET, 서버만 알고 있어야 함
 
         System.out.println("디버그 jwtToken : " + jwtToken);
 

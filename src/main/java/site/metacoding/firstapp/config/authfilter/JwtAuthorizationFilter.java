@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter implements Filter { // 토큰 검증 필터
                 .replace(JwtProperties.TOKEN_PREFIX, "");
 
         try {
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512("6조")).build().verify(jwtToken);
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken);
             Integer userId = decodedJWT.getClaim("userId").asInt();
             String username = decodedJWT.getClaim("username").asString();
             HttpSession session = req.getSession();
