@@ -27,4 +27,7 @@ public interface UserDao {
 
 	public Optional<FindByUsernameDto> findAllUsername(String username);
 
+	public User findByUsersId(Integer usersId);
+
+
 }

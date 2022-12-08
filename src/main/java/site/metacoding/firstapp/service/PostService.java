@@ -14,6 +14,7 @@ import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
+import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @Service
@@ -21,16 +22,16 @@ public class PostService {
 	private final PostDao postDao;
 
 	@Transactional
-	public SaveRespDto 게시글등록하기(SaveReqDto saveReqDto, Integer userId) {
+	public SaveRespDto 게시글등록하기(SaveReqDto saveReqDto, SessionUserDto principal) {
 		postDao.insert(saveReqDto.toEntity());
-		SaveRespDto saveRespDto = postDao.saveResult(userId);
+		SaveRespDto saveRespDto = postDao.saveResult(principal.getUserId());
 		return saveRespDto;
 	}
 
 	@Transactional
-	public UpdateRespDto 게시글수정하기(UpdateReqDto updateReqDto, Integer userId) {
+	public UpdateRespDto 게시글수정하기(UpdateReqDto updateReqDto, SessionUserDto principal) {
 		postDao.update(updateReqDto.toEntity());
-		UpdateRespDto updateRespDto = postDao.updateResult(userId);
+		UpdateRespDto updateRespDto = postDao.updateResult(principal.getUserId());
 		return updateRespDto;
 	}
 
