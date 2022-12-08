@@ -41,84 +41,58 @@ public class PostController {
 	private final VisitService visitService;
 
 	// 게시글등록 페이지
-	@GetMapping("/post/writeForm")
-	public CMRespDto<?> writeForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
+	@GetMapping("/s/post/writeForm/{userId}")
+	public CMRespDto<?> writeForm(@PathVariable Integer userId) {
 		return new CMRespDto<>(1, "게시글 등록 페이지 불러오기 성공", null);
 	}
 
 	// 게시글 등록 응답
-	@PostMapping("/post/write")
-	public @ResponseBody CMRespDto<?> write(@RequestBody SaveReqDto saveReqDto) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-		if (saveReqDto.getUserId() != principal.getUserId()) {
-			return new CMRespDto<>(-1, "로그인 아이디가 다릅니다.", null);
-		}
-		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal);
+	@PostMapping("/s/post/write/{userId}")
+	public @ResponseBody CMRespDto<?> write(@RequestBody SaveReqDto saveReqDto, @PathVariable Integer userId) {
+		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, userId);
 		return new CMRespDto<>(1, "게시글등록 성공", saveRespDto);
 	}
 
 	// 게시글수정 페이지
-	@GetMapping("/post/updateForm/{postId}")
-	public CMRespDto<?> updateForm(@PathVariable Integer postId) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-		UpdateRespDto updateRespDto = postDao.findByUserIdAndPostId(principal.getUserId(), postId);
+	@GetMapping("/s/post/updateForm/{postId}/{userId}")
+	public CMRespDto<?> updateForm(@PathVariable Integer postId, @PathVariable Integer userId) {
+
+		UpdateRespDto updateRespDto = postDao.findByUserIdAndPostId(userId, postId);
 		if (updateRespDto == null) {
 			return new CMRespDto<>(-1, "내가 쓴 글이 아닙니다.", null);
 		}
-		System.out.println("디버그 " + updateRespDto.getPostTitle());
 		return new CMRespDto<>(1, "게시글 수정 페이지 불러오기 성공", updateRespDto);
 	}
 
 	// 게시글 수정 응답
-	@PutMapping("/post/update")
-	public @ResponseBody CMRespDto<?> update(@RequestBody UpdateReqDto updateReqDto) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
+	@PutMapping("/s/post/update/{userId}")
+	public @ResponseBody CMRespDto<?> update(@RequestBody UpdateReqDto updateReqDto, @PathVariable Integer userId) {
+
 		Post postPS = postDao.findById(updateReqDto.getPostId());
 		if (postPS == null) {
 			return new CMRespDto<>(-1, "해당 게시글이 존재하지 않습니다.", null);
 		}
-		if (principal.getUserId() != postPS.getUserId()) {
+		if (userId != postPS.getUserId()) {
 			return new CMRespDto<>(-1, "본인이 작성한 게시글이 아닙니다.", null);
 		}
-		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal);
+		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, userId);
 		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
 	}
 
 	// 게시글 삭제 응답
-	@DeleteMapping("/post/delete/{postId}")
-	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer postId) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
+	@DeleteMapping("/s/post/delete/{postId}/{userId}")
+	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer postId, @PathVariable Integer userId) {
 		DeleteRespDto deleteRespDto = postService.게시글삭제하기(postId);
 		return new CMRespDto<>(1, "게시글 삭제 성공", deleteRespDto);
 	}
 
 	// 게시글 상세보기 페이지
-	@GetMapping("/s/post/detailForm/{postId}")
-	public CMRespDto<?> detailForm(@PathVariable Integer postId) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-		Integer visitId = visitService.방문한Id불러오기(principal.getUserId(), postId);
+	@GetMapping("/s/post/detailForm/{postId}/{userId}")
+	public CMRespDto<?> detailForm(@PathVariable Integer postId, @PathVariable Integer userId) {
+		Integer visitId = visitService.방문한Id불러오기(userId, postId);
 		if (visitId == null) {
-			visitService.방문기록추가하기(principal.getUserId(), postId);
-			Visit visit = new Visit(visitId, principal.getUserId(), postId);
+			visitService.방문기록추가하기(userId, postId);
+			Visit visit = new Visit(visitId, userId, postId);
 			return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기및 방문기록추가 성공", visit);
 		}
 		DetailRespDto detailRespDto = postService.게시글상세보기(postId);
@@ -126,52 +100,30 @@ public class PostController {
 	}
 
 	// 내가 쓴 게시글 목록 페이지
-	@GetMapping("/post/myListForm")
-	public @ResponseBody CMRespDto<?> myListForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-
-		List<PostRespDto> postRespDto = postService.내가쓴게시글목록보기(principal.getUserId());
+	@GetMapping("/s/post/myListForm/{userId}")
+	public @ResponseBody CMRespDto<?> myListForm(@PathVariable Integer userId) {
+		List<PostRespDto> postRespDto = postService.내가쓴게시글목록보기(userId);
 		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
 	}
 
 	// 일상 목록 페이지
-	@GetMapping("/post/dailyListForm")
-	public @ResponseBody CMRespDto<?> dailyListForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-
+	@GetMapping("/s/post/dailyListForm/{userId}")
+	public @ResponseBody CMRespDto<?> dailyListForm(@PathVariable Integer userId) {
 		List<DailyListDto> dailyListDto = postDao.findDailyList();
 		return new CMRespDto<>(1, "일상 목록 페이지 불러오기 성공", dailyListDto);
 	}
 
 	// 비즈니스 목록 페이지
-	@GetMapping("/post/businessListForm")
-	public @ResponseBody CMRespDto<?> businessListForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-
+	@GetMapping("/s/post/businessListForm/{userId}")
+	public @ResponseBody CMRespDto<?> businessListForm(@PathVariable Integer userId) {
 		List<BusinessListDto> businessListDto = postDao.findBusinessList();
 		return new CMRespDto<>(1, "비즈니스 목록 페이지 불러오기 성공", businessListDto);
 	}
 
 	// 메인 목록 페이지
-	@GetMapping("/post/listForm")
-	public @ResponseBody CMRespDto<?> listForm( String keyword) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
+	@GetMapping("/s/post/listForm/{userId}")
+	public @ResponseBody CMRespDto<?> listForm(String keyword, @PathVariable Integer userId) {
+		
 		if (keyword == null || keyword.isEmpty()) {
 			List<ListRespDto> listRespDto = postDao.findPostList(null);
 			return new CMRespDto<>(1, "메인 목록 페이지 불러오기 성공", listRespDto);

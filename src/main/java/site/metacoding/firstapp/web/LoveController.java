@@ -24,38 +24,28 @@ public class LoveController {
 	private final LoveService loveService;
 
 	// 게시글 좋아요 응답
-	@PostMapping("/love/{postId}") // 좋아요한 게시글
-	public @ResponseBody CMRespDto<?> love(@PathVariable Integer postId) {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+	@PostMapping("/s/love/{postId}/{userId}") // 좋아요한 게시글
+	public @ResponseBody CMRespDto<?> love(@PathVariable Integer postId, @PathVariable Integer userId) {
 
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-		Integer loveId = loveService.좋아요Id불러오기(principal.getUserId(), postId);
+		Integer loveId = loveService.좋아요Id불러오기(userId, postId);
 
 		if (loveId == null) {
-			loveService.좋아요(principal.getUserId(), postId);
-			loveId = loveService.좋아요Id불러오기(principal.getUserId(), postId);
-			LoveRespDto loveRespDto = new LoveRespDto(loveId, principal.getUserId(), postId);
+			loveService.좋아요(userId, postId);
+			loveId = loveService.좋아요Id불러오기(userId, postId);
+			LoveRespDto loveRespDto = new LoveRespDto(loveId, userId, postId);
 			return new CMRespDto<>(1, "좋아요 성공", loveRespDto);
 		}
 
-		LoveRespDto loveRespDto = new LoveRespDto(loveId, principal.getUserId(), postId);
+		LoveRespDto loveRespDto = new LoveRespDto(loveId, userId, postId);
 		loveService.좋아요취소(loveId);
 
 		return new CMRespDto<>(1, "좋아요 취소 성공", loveRespDto);
 	}
 
 	// 좋아요한 게시글 목록 페이지
-	@GetMapping("/love/listForm")
-	public @ResponseBody CMRespDto<?> loveListForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-
-		List<PostRespDto> postRespDto = loveService.좋아요한게시글목록보기(principal.getUserId());
+	@GetMapping("/s/love/listForm/{userId}")
+	public @ResponseBody CMRespDto<?> loveListForm(@PathVariable Integer userId) {
+		List<PostRespDto> postRespDto = loveService.좋아요한게시글목록보기(userId);
 		return new CMRespDto<>(1, "좋아요 목록 페이지 성공", postRespDto);
 	}
 

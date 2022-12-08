@@ -24,11 +24,10 @@ import site.metacoding.firstapp.utill.SHA256;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
-import site.metacoding.firstapp.web.dto.response.user.LoginRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter implements Filter {
+@RequiredArgsConstructor 
+public class JwtAuthenticationFilter implements Filter { // 토큰 생성 필터
 
     private final UserDao userDao;
     private final SHA256 sha256;
@@ -53,7 +52,7 @@ public class JwtAuthenticationFilter implements Filter {
         LoginReqDto loginReqDto = om.readValue(req.getInputStream(),
                 LoginReqDto.class);
 
-        // 유저네임 있는지 체크
+        // 유저네임 체크
         Optional<FindByUsernameDto> usernamePS = userDao.findAllUsername(loginReqDto.getUsername());
         usernamePS.orElseThrow(() -> new RuntimeException("아이디를 잘못 입력했습니다."));
 
@@ -92,6 +91,7 @@ public class JwtAuthenticationFilter implements Filter {
         CMRespDto<?> responseDto = new CMRespDto<>(1, "로그인 성공", new SessionUserDto(findByUsernameDto));
         ObjectMapper om = new ObjectMapper();
         String body = om.writeValueAsString(responseDto);
+        
         out.println(body);
         out.flush();
     }
