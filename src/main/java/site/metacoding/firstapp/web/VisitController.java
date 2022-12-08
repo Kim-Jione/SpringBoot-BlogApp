@@ -21,7 +21,7 @@ public class VisitController {
 	private final VisitService visitService;
 
 	// 내가 방문한 게시글 목록 페이지
-	@GetMapping("/visit/listForm")
+	@GetMapping("/s/visit/listForm")
 	public @ResponseBody CMRespDto<?> visitListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 

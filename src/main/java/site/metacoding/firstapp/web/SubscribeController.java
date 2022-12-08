@@ -20,7 +20,7 @@ public class SubscribeController {
 	private final HttpSession session;
 
 	// 구독 응답
-	@PostMapping("/subscribe/{usersId}") // 구독한 회원
+	@PostMapping("/s/subscribe/{usersId}") // 구독한 회원
 	public @ResponseBody CMRespDto<?> subscribe(@PathVariable Integer usersId) {
 
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");

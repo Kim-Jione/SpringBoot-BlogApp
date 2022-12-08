@@ -24,7 +24,7 @@ public class LoveController {
 	private final LoveService loveService;
 
 	// 게시글 좋아요 응답
-	@PostMapping("/love/{postId}") // 좋아요한 게시글
+	@PostMapping("/s/love/{postId}") // 좋아요한 게시글
 	public @ResponseBody CMRespDto<?> love(@PathVariable Integer postId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
@@ -47,7 +47,7 @@ public class LoveController {
 	}
 
 	// 좋아요한 게시글 목록 페이지
-	@GetMapping("/love/listForm")
+	@GetMapping("/s/love/listForm")
 	public @ResponseBody CMRespDto<?> loveListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 

@@ -41,7 +41,7 @@ public class PostController {
 	private final VisitService visitService;
 
 	// 게시글등록 페이지
-	@GetMapping("/post/writeForm")
+	@GetMapping("/s/post/writeForm")
 	public CMRespDto<?> writeForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -51,7 +51,7 @@ public class PostController {
 	}
 
 	// 게시글 등록 응답
-	@PostMapping("/post/write")
+	@PostMapping("/s/post/write")
 	public @ResponseBody CMRespDto<?> write(@RequestBody SaveReqDto saveReqDto) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -65,7 +65,7 @@ public class PostController {
 	}
 
 	// 게시글수정 페이지
-	@GetMapping("/post/updateForm/{postId}")
+	@GetMapping("/s/post/updateForm/{postId}")
 	public CMRespDto<?> updateForm(@PathVariable Integer postId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -80,7 +80,7 @@ public class PostController {
 	}
 
 	// 게시글 수정 응답
-	@PutMapping("/post/update")
+	@PutMapping("/s/post/update")
 	public @ResponseBody CMRespDto<?> update(@RequestBody UpdateReqDto updateReqDto) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -98,7 +98,7 @@ public class PostController {
 	}
 
 	// 게시글 삭제 응답
-	@DeleteMapping("/post/delete/{postId}")
+	@DeleteMapping("/s/post/delete/{postId}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer postId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -126,7 +126,7 @@ public class PostController {
 	}
 
 	// 내가 쓴 게시글 목록 페이지
-	@GetMapping("/post/myListForm")
+	@GetMapping("/s/post/myListForm")
 	public @ResponseBody CMRespDto<?> myListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
@@ -139,7 +139,7 @@ public class PostController {
 	}
 
 	// 일상 목록 페이지
-	@GetMapping("/post/dailyListForm")
+	@GetMapping("/s/post/dailyListForm")
 	public @ResponseBody CMRespDto<?> dailyListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
@@ -152,7 +152,7 @@ public class PostController {
 	}
 
 	// 비즈니스 목록 페이지
-	@GetMapping("/post/businessListForm")
+	@GetMapping("/s/post/businessListForm")
 	public @ResponseBody CMRespDto<?> businessListForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 
@@ -165,7 +165,7 @@ public class PostController {
 	}
 
 	// 메인 목록 페이지
-	@GetMapping("/post/listForm")
+	@GetMapping("/s/post/listForm")
 	public @ResponseBody CMRespDto<?> listForm(String keyword) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 

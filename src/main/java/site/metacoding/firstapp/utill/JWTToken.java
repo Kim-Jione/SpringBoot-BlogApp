@@ -1,6 +1,5 @@
 package site.metacoding.firstapp.utill;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,18 +7,13 @@ import javax.servlet.http.Cookie;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.firstapp.config.authfilter.JwtProperties;
-import site.metacoding.firstapp.handler.ApiException;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 public class JWTToken {
 
     public static class CreateJWTToken {
-
-        static Date expire = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1시간 토큰값
 
         public static String createToken(SessionUserDto sessionUserDto) {
 
@@ -30,7 +24,8 @@ public class JWTToken {
             // map type 저장시 primitive type(또는 해당 Wrapping class)만 지원한다.
             // 커스텀 오브젝트는 저장을 지원하지 않는다. - 에러발생
             String jwtToken = JWT.create()
-                    .withExpiresAt(expire) // 토큰 만료시간
+                    .withExpiresAt(
+                            JwtProperties.EXPIRATION_TIME) // 토큰 만료시간
                     .withClaim("sessionUserDto", map) // 로그인 데이터 작성
                     .sign(Algorithm.HMAC512(JwtProperties.SECRET)); // 어떤 알고리즘 쓸지, 서버만 들고 있는 키 조합
 
@@ -46,10 +41,11 @@ public class JWTToken {
      * 따라서 Html <body>에서 쿠키를 전송하기보다 <head>에서 사용하자.
      */
 
+    // 쿠키에 토큰 추가
     public static class CookieForToken {
 
         public static Cookie setCookie(String token) {
-            Cookie cookie = new Cookie("Authorization", token); // Cookie에 Bearer 추가하면 안됨 - 최대 공간 초과....
+            Cookie cookie = new Cookie("Authorization", token); // Cookie에 Bearer 추가하면 안됨 - 최대 공간 초과
             cookie.setMaxAge(6 * 100 * 60); // 토큰값도 1시간이니 같게 해줌
             return cookie;
         }
@@ -71,97 +67,20 @@ public class JWTToken {
 
     }
 
-    public static class TokenVerificationForCookie {
-
-        // 토큰 검증 메서드
-        public Boolean Verification(String token) {
-
-            if (token == null) {
-                return false;
-            }
-
-            // 토큰 검증
-            token = token.replace("Authorization=", "");
-            token = token.trim(); // 검증전 공백제거
-
-            try {
-
-                // log.debug("디버그 : 토큰확인 - " + token);
-
-                Date now = new Date(System.currentTimeMillis());
-
-                DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token);
-
-                // 입력받은 토큰값이 현재시간을 넘지 않았을 경우 true를 반환 - 만료된 토큰이 아닌지 판별
-                if (decodedJWT.getExpiresAt() != null && decodedJWT.getExpiresAt().after(now)) {
-                    return true;
-                }
-
-            } catch (Exception e) {
-                throw new ApiException("만료된 토큰 혹은 잘못된 토큰이 입력되었습니다.");
-            }
-
-            return false;
-
-        }
-    }
-
-    public static class TokenVerificationForHeader {
-
-        // 토큰 검증 메서드
-        public Boolean Verification(String token) {
-
-            if (token == null) {
-                return false;
-            }
-
-            // 토큰 검증 - 검증전 공백제거
-            token = token.replace("Bearer ", "");
-            token = token.trim();
-
-            try {
-
-                Date now = new Date(System.currentTimeMillis());
-
-                DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token);
-
-                // 입력받은 토큰값이 현재시간을 넘지 않았을 경우 true를 반환 - 만료된 토큰이 아닌지 판별
-                if (decodedJWT.getExpiresAt() != null && decodedJWT.getExpiresAt().after(now)) {
-                    return true;
-                }
-
-            } catch (Exception e) {
-                throw new ApiException("만료된 토큰 혹은 잘못된 토큰이 입력되었습니다.");
-            }
-
-            return false;
-
-        }
-    }
-
     public static class TokenToSinedDto {
         Integer userId = null;
         String username = null;
-        String role = null;
 
-        // 토큰 -> 로그인Dto 변경 로직 ..... 뭔가 더러움
+        // 토큰 -> 로그인Dto 변경 로직
         public SessionUserDto tokenToSignedDto(Map<String, Object> getSigned) {
             for (String key : getSigned.keySet()) {
 
                 if (key.equals("userId")) {
-
                     userId = ((Integer) getSigned.get(key));
-
                 }
+
                 if (key.equals("username")) {
-
                     username = (getSigned.get(key).toString());
-
-                }
-                if (key.equals("role")) {
-
-                    username = (getSigned.get(key).toString());
-
                 }
             }
 

@@ -61,7 +61,7 @@ public class JwtAuthorizationFilter implements Filter { // 토큰 검증 필터
             // 디스패쳐 서블릿 입장 혹은 Filter체인 타기
             chain.doFilter(req, resp);
         } catch (Exception e) {
-            customResponse("토큰 검증 실패", resp);
+            customResponse("만료된 토큰 혹은 잘못된 토큰이 입력되었습니다.", resp);
         }
 
     }
