@@ -61,8 +61,8 @@ public class UserController {
 			return new CMRespDto<>(-1, "로그인실패", null);
 		}
 		String token = CreateJWTToken.createToken(principal); // 로그인 될시 토큰생성
-		resp.addHeader("Authorization", "Bearer " + token);
-		resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다.
+		resp.addHeader("Authorization", "Bearer " + token); // 헤더에 토큰 추가
+		resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다. 쿠키 저장소에 저장하게 함
 
 		session.setAttribute("principal", principal);
 		return new CMRespDto<>(1, "로그인성공", principal);
@@ -76,12 +76,11 @@ public class UserController {
 			return new CMRespDto<>(-1, "로그아웃 실패", null);
 		}
 		session.removeAttribute("principal");
-		LoginRespDto loginRespDto = new LoginRespDto(principal);
-		return new CMRespDto<>(1, "로그아웃 성공", loginRespDto);
+		return new CMRespDto<>(1, "로그아웃 성공", principal);
 	}
 
 	// 회원정보 수정페이지
-	@GetMapping("/user/updateForm")
+	@GetMapping("/s/user/updateForm")
 	public CMRespDto<?> updateForm() {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
