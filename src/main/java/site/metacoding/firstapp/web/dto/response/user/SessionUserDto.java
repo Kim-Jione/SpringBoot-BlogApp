@@ -2,13 +2,22 @@ package site.metacoding.firstapp.web.dto.response.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.firstapp.domain.user.User;
 
 @Getter
 @Setter
 public class SessionUserDto {
+
 	private Integer userId;
 	private String username;
-	private String password;
-	private String nickname;
-	private String email;
+
+	public SessionUserDto(Integer userId, String username) {
+		this.userId = userId;
+		this.username = username;
+	}
+
+	public SessionUserDto(User userPS) {
+		this.userId = userPS.getUserId();
+		this.username = userPS.getUsername();
+	}
 }

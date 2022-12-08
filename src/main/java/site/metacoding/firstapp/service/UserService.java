@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
+import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
+import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @Service
@@ -28,6 +30,18 @@ public class UserService {
 	public User 유저네임으로찾기(String username) {
 		User userPS = userDao.findByUsername(username);
 		return userPS;
+	}
+
+  @Transactional
+	public SessionUserDto 로그인(LoginReqDto loginReqDto) {
+		User userPS = userDao.findByUsername(loginReqDto.getUsername());
+		if (userPS == null) {
+			return null;
+		}
+		if (userPS.getPassword().equals(loginReqDto.getPassword())) {
+			return new SessionUserDto(userPS);
+		}
+		return null;
 	}
 
 }

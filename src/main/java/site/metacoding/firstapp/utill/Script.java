@@ -1,7 +1,7 @@
-package site.metacoding.firstapp.util;
+package site.metacoding.firstapp.utill;
 
 public class Script {
-
+	
 	public static String back(String msg) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<script>");
@@ -23,7 +23,15 @@ public class Script {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<script>");
 		sb.append("alert('"+msg+"');");
-		sb.append("location.href='"+url+"';");
+		sb.append("history.back('"+url+"');");
+		sb.append("</script>");
+		return sb.toString();
+	}
+	
+	public static String valReturn(String msg) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<script>");
+		sb.append("alert('"+msg+"');");
 		sb.append("</script>");
 		return sb.toString();
 	}

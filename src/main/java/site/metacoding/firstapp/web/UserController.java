@@ -1,5 +1,6 @@
 package site.metacoding.firstapp.web;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
-import site.metacoding.firstapp.service.LoveService;
 import site.metacoding.firstapp.service.UserService;
+import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
+import site.metacoding.firstapp.utill.JWTToken.CreateJWTToken;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
@@ -25,7 +27,6 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 @RestController
 public class UserController {
 	private final UserService userService;
-	private final LoveService loveService;
 	private final HttpSession session;
 	private final UserDao userDao;
 
@@ -54,14 +55,17 @@ public class UserController {
 
 	// 로그인 응답
 	@PostMapping("/user/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto) {
-		SessionUserDto principal = userDao.login(loginReqDto);
+	public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse resp) {
+		SessionUserDto principal = userService.로그인(loginReqDto);
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인실패", null);
 		}
+		String token = CreateJWTToken.createToken(principal); // 로그인 될시 토큰생성
+		resp.addHeader("Authorization", "Bearer " + token);
+		resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다.
+
 		session.setAttribute("principal", principal);
-		LoginRespDto loginRespDto = new LoginRespDto(loginReqDto);
-		return new CMRespDto<>(1, "로그인성공", loginRespDto);
+		return new CMRespDto<>(1, "로그인성공", principal);
 	}
 
 	// 로그아웃
