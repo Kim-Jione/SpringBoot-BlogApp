@@ -1,7 +1,5 @@
 package site.metacoding.firstapp.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +9,6 @@ import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
-import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor

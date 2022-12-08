@@ -17,7 +17,7 @@ public class User {
 	private String profileImg;
 	private Timestamp updatedAt;
 	private Timestamp createdAt;
-	
+
 	@Builder
 	public User(String username, String nickname, String password, String email) {
 		super();

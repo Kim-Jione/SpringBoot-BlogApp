@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class SHA256 {
 
     public String encrypt(String text) {
-        // text = "_솔트"; //솔트를 쳐서 비밀번호를 한번더 암호화 시킨다.
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(text.getBytes());

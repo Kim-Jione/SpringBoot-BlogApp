@@ -22,7 +22,7 @@ public class JWTToken {
         static Date expire = new Date(System.currentTimeMillis() + (1000 * 60 * 60)); // 1시간 토큰값
 
         public static String createToken(SessionUserDto sessionUserDto) {
-
+            System.out.println("디버그 : 토큰 생성지역 진입");
             HashMap<String, Object> map = new HashMap<>(); // 해쉬맵 장점 get()을 통해서 key-value로 저장되어 있는 것을 꺼내올 수 있다,
             map.put("userId", sessionUserDto.getUserId());
             map.put("username", sessionUserDto.getUsername());
@@ -34,8 +34,8 @@ public class JWTToken {
             String jwtToken = JWT.create()
                     .withExpiresAt(expire) // 토큰 만료시간
                     .withClaim("sessionUserDto", map) // 로그인 데이터 작성
-                    .sign(Algorithm.HMAC512(SecretKey.SECRETKEY.key())); // 어떤 알고리즘 쓸지, 512가 보안등급이 더 좋음
-
+                    .sign(Algorithm.HMAC512(SecretKey.SECRETKEY.key())); // 어떤 알고리즘 쓸지 정함
+            System.out.println("디버그 토큰 : "+ jwtToken);
             return jwtToken; // 토큰 만들어서 return 해줌
         }
     }
@@ -51,7 +51,7 @@ public class JWTToken {
     public static class CookieForToken {
 
         public static Cookie setCookie(String token) {
-            Cookie cookie = new Cookie("Authorization", token); // Cookie에 Bearer 추가하면 안됨 - 최대 공간 초과....
+            Cookie cookie = new Cookie("Authorization", token); // Cookie에 Bearer 추가하면 안됨 - 최대 공간 초과
             cookie.setMaxAge(6 * 100 * 60); // 토큰값도 1시간이니 같게 해줌
             return cookie;
         }
@@ -68,6 +68,7 @@ public class JWTToken {
                 if (cookie.getName().equals("Authorization"))
                     token = cookie.getValue();
             }
+            System.out.println("디버그 쿠키 내부 토큰 : "+ token);
             return token;
         }
 
@@ -167,7 +168,7 @@ public class JWTToken {
                     username = (getSigned.get(key).toString());
 
                 }
-                
+
             }
 
             return new SessionUserDto(userId, username);

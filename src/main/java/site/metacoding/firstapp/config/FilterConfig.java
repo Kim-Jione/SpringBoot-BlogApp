@@ -3,29 +3,43 @@ package site.metacoding.firstapp.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.metacoding.firstapp.config.authfilter.JwtAuthenticationFilter;
 import site.metacoding.firstapp.config.authfilter.JwtAuthorizationFilter;
+import site.metacoding.firstapp.domain.user.UserDao;
+import site.metacoding.firstapp.utill.SHA256;
 
 
+@Slf4j
+@RequiredArgsConstructor
 @Configuration
 public class FilterConfig {
 
-    @Bean // 토큰 없으면 생성해주는 필터
+    private final UserDao userDao; // DI (스프링 IoC 컨테이너에서 옴)
+    private final SHA256 sha256;
+
+    // IoC등록 (서버 실행시)
+    @Bean
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtAuthenticationFilterRegister() {
         FilterRegistrationBean<JwtAuthenticationFilter> bean = new FilterRegistrationBean<>(
-                new JwtAuthenticationFilter());
-        bean.addUrlPatterns("/login"); // 해당 url에 맞는 요청에 Filter가 적용된다.
-        bean.setOrder(1);
+                new JwtAuthenticationFilter(userDao, sha256));
+        bean.addUrlPatterns("/login");
+        bean.setOrder(1); // 낮은 순서대로 실행
         return bean;
     }
-    
-    @Bean // 토큰 있으면 해독해서 검증해주는 필터
+
+    @Profile("prod")
+    @Bean
     public FilterRegistrationBean<JwtAuthorizationFilter> jwtAuthorizationFilterRegister() {
+        log.debug("디버그 : 인가 필터 등록");
         FilterRegistrationBean<JwtAuthorizationFilter> bean = new FilterRegistrationBean<>(
                 new JwtAuthorizationFilter());
-        bean.addUrlPatterns("/s/*"); // 해당 url에 맞는 요청에 Filter가 적용된다.
-        bean.setOrder(1);
+        bean.addUrlPatterns("/s/*"); // 원래 두개인데, 이 친구만 예외
+        bean.setOrder(2);
         return bean;
     }
+
 }

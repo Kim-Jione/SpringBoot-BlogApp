@@ -45,6 +45,15 @@
 		WHERE user_id=#{userId}
 	</select>
 
+	<select id="findAllUsername" resultType="site.metacoding.firstapp.web.dto.auth.FindByUsernameDto">
+        SELECT *
+		FROM user
+		WHERE username = #{username}
+    </select>
+
 </mapper>
     
+
+    
+
 

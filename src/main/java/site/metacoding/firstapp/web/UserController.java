@@ -20,7 +20,6 @@ import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
-import site.metacoding.firstapp.web.dto.response.user.LoginRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor

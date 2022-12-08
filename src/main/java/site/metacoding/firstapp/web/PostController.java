@@ -109,7 +109,7 @@ public class PostController {
 	}
 
 	// 게시글 상세보기 페이지
-	@GetMapping("/post/detailForm/{postId}")
+	@GetMapping("/s/post/detailForm/{postId}")
 	public CMRespDto<?> detailForm(@PathVariable Integer postId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
