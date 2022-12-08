@@ -52,7 +52,6 @@ public class JwtAuthorizationFilter implements Filter { // 토큰 검증 필터
             TokenToSinedDto tokenToSinedDto = new TokenToSinedDto();
 
             SessionUserDto sessionUserDto = tokenToSinedDto.tokenToSignedDto(getSigned);
-            System.out.println("디버그 username : " + sessionUserDto.getUsername());
 
             HttpSession session = req.getSession();
 

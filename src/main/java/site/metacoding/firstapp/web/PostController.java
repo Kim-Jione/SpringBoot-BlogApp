@@ -104,6 +104,10 @@ public class PostController {
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
+		Post postPS = postDao.findById(postId);
+		if (principal.getUserId() != postPS.getUserId()) {
+			return new CMRespDto<>(-1, "본인이 작성한 게시글이 아닙니다.", null);
+		}
 		DeleteRespDto deleteRespDto = postService.게시글삭제하기(postId);
 		return new CMRespDto<>(1, "게시글 삭제 성공", deleteRespDto);
 	}
