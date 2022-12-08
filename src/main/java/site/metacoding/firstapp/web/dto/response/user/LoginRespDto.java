@@ -12,11 +12,9 @@ public class LoginRespDto {
 
 	public LoginRespDto(LoginReqDto loginReqDto) {
 		this.username = loginReqDto.getUsername();
-		this.password = loginReqDto.getPassword();
 	}
 
 	public LoginRespDto(SessionUserDto principal) {
 		this.username = principal.getUsername();
-		this.password = principal.getPassword();
 	}
 }

@@ -1,7 +1,9 @@
 package site.metacoding.firstapp.domain.user;
 
 import java.util.List;
+import java.util.Optional;
 
+import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
@@ -23,5 +25,6 @@ public interface UserDao {
 
 	public InfoRespDto findByUser(Integer userId);
 
+	public Optional<FindByUsernameDto> findAllUsername(String username);
 
 }

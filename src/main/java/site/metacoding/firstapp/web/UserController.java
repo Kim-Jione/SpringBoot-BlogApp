@@ -3,6 +3,7 @@ package site.metacoding.firstapp.web;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,21 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
-import site.metacoding.firstapp.service.LoveService;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
-import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
-import site.metacoding.firstapp.web.dto.response.user.LoginRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
 @RestController
 public class UserController {
 	private final UserService userService;
-	private final LoveService loveService;
 	private final HttpSession session;
 	private final UserDao userDao;
 
@@ -52,38 +49,10 @@ public class UserController {
 		return new CMRespDto<>(1, "로그인 페이지 불러오기 성공", null);
 	}
 
-	// 로그인 응답
-	@PostMapping("/user/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto) {
-		SessionUserDto principal = userDao.login(loginReqDto);
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인실패", null);
-		}
-		session.setAttribute("principal", principal);
-		LoginRespDto loginRespDto = new LoginRespDto(loginReqDto);
-		return new CMRespDto<>(1, "로그인성공", loginRespDto);
-	}
-
-	// 로그아웃
-	@GetMapping("/user/logout")
-	public CMRespDto<?> logout() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그아웃 실패", null);
-		}
-		session.removeAttribute("principal");
-		LoginRespDto loginRespDto = new LoginRespDto(principal);
-		return new CMRespDto<>(1, "로그아웃 성공", loginRespDto);
-	}
-
 	// 회원정보 수정페이지
-	@GetMapping("/user/updateForm")
-	public CMRespDto<?> updateForm() {
-		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-		}
-		InfoRespDto infoRespDto = userDao.findByUser(principal.getUserId());
+	@GetMapping("/s/user/updateForm/{userId}")
+	public CMRespDto<?> updateForm(@PathVariable Integer userId) {
+		InfoRespDto infoRespDto = userDao.findByUser(userId);
 		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", infoRespDto);
 	}
 
