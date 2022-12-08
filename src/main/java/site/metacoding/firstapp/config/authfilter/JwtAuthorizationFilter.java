@@ -1,7 +1,7 @@
 package site.metacoding.firstapp.config.authfilter;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,47 +10,48 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
-import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
-import site.metacoding.firstapp.utill.JWTToken.TokenToSinedDto;
-import site.metacoding.firstapp.utill.SecretKey;
-import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
+import lombok.RequiredArgsConstructor;
+import site.metacoding.firstapp.domain.user.UserDao;
+import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 
+@RequiredArgsConstructor
 public class JwtAuthorizationFilter implements Filter {
 
+    private final UserDao userDao;
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain)
             throws IOException, ServletException {
-
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        String tokenForCookie = CookieForToken.cookieToToken(req.getCookies()); // 쿠키 내의 토큰 찾기
-        if (tokenForCookie == null) {
+        String header = req.getHeader(JwtProperties.HEADER_STRING);
+        if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
+            System.out.println("디버그 header 비정상 : " + header);
+            chain.doFilter(req, resp);
             return;
         }
-        System.out.println("디버그  : 쿠키 내 토큰 찾기 완료");
+        System.out.println("디버그 header : " + header);
 
-        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecretKey.SECRETKEY.key())).build()
-                .verify(tokenForCookie); // 토큰 해독 객체 생성
+        String token = req.getHeader(JwtProperties.HEADER_STRING)
+                .replace(JwtProperties.TOKEN_PREFIX, "");
+        System.out.println("디버그 token : " + token);
 
-        // map 형식으로 저장되어있는 토큰값을 map형식으로 가져온다.
-        Map<String, Object> getSigned = decodedJWT.getClaim("sessionUserDto").asMap();
+        // 토큰 검증
+        String username = JWT.require(Algorithm.HMAC256(JwtProperties.SECRET)).build().verify(token)
+                .getClaim("username").asString();
+        System.out.println("디버그 username : " + username);
 
-        TokenToSinedDto tokenToSinedDto = new TokenToSinedDto();
-        SessionUserDto sessionUserDto = tokenToSinedDto.tokenToSignedDto(getSigned);
-        System.out.println("디버그 username : " + sessionUserDto.getUsername());
+        if (username != null) {
+            Optional<FindByUsernameDto> user = userDao.findAllUsername(username);
 
-        HttpSession session = req.getSession();
+           
 
-        session.setAttribute("principal", sessionUserDto);
-
-        chain.doFilter(req, resp);
+            // 강제로 시큐리티의 세션에 접근하여 값 저장
+        }
     }
-
 }

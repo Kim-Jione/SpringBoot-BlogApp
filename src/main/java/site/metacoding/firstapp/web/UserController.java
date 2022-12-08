@@ -1,6 +1,5 @@
 package site.metacoding.firstapp.web;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +12,8 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.service.UserService;
-import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
-import site.metacoding.firstapp.utill.JWTToken.CreateJWTToken;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
-import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -53,19 +49,19 @@ public class UserController {
 	}
 
 	// 로그인 응답
-	@PostMapping("/user/login")
-	public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse resp) {
-		SessionUserDto principal = userService.로그인(loginReqDto);
-		if (principal == null) {
-			return new CMRespDto<>(-1, "로그인실패", null);
-		}
-		String token = CreateJWTToken.createToken(principal); // 로그인 될시 토큰생성
-		resp.addHeader("Authorization", "Bearer " + token); // 헤더에 토큰 추가
-		resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다. 쿠키 저장소에 저장하게 함
+	// @PostMapping("/user/login")
+	// public @ResponseBody CMRespDto<?> login(@RequestBody LoginReqDto loginReqDto, HttpServletResponse resp) {
+	// 	SessionUserDto principal = userService.로그인(loginReqDto);
+	// 	if (principal == null) {
+	// 		return new CMRespDto<>(-1, "로그인실패", null);
+	// 	}
+	// 	String token = CreateJWTToken.createToken(principal); // 로그인 될시 토큰생성
+	// 	resp.addHeader("Authorization", "Bearer " + token); // 헤더에 토큰 추가
+	// 	resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다. 쿠키 저장소에 저장하게 함
 
-		session.setAttribute("principal", principal);
-		return new CMRespDto<>(1, "로그인성공", principal);
-	}
+	// 	session.setAttribute("principal", principal);
+	// 	return new CMRespDto<>(1, "로그인성공", principal);
+	// }
 
 	// 로그아웃
 	@GetMapping("/user/logout")

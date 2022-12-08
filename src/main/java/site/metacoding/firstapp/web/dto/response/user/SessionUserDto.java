@@ -1,10 +1,12 @@
 package site.metacoding.firstapp.web.dto.response.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 
+@Builder
 @Getter
 @Setter
 public class SessionUserDto {
