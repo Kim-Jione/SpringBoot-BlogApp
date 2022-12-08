@@ -2,6 +2,7 @@ package site.metacoding.firstapp.config.authfilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.firstapp.utill.JWTToken.TokenToSinedDto;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
@@ -39,25 +41,29 @@ public class JwtAuthorizationFilter implements Filter { // 토큰 검증 필터
             return;
         }
 
-        System.out.println("디버그 header : " + header);
-
         // 토큰 검증
         String jwtToken = req.getHeader(JwtProperties.HEADER_STRING)
                 .replace(JwtProperties.TOKEN_PREFIX, "");
 
         try {
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken);
-            Integer userId = decodedJWT.getClaim("userId").asInt();
-            String username = decodedJWT.getClaim("username").asString();
+
+            Map<String, Object> getSigned = decodedJWT.getClaim("sessionUserDto").asMap();
+            TokenToSinedDto tokenToSinedDto = new TokenToSinedDto();
+
+            SessionUserDto sessionUserDto = tokenToSinedDto.tokenToSignedDto(getSigned);
+            System.out.println("디버그 username : " + sessionUserDto.getUsername());
+
             HttpSession session = req.getSession();
-            session.setAttribute("sessionUser",
-                    SessionUserDto.builder().userId(userId).username(username).build());
+
+            session.setAttribute("principal", sessionUserDto);
+
+            // 디스패쳐 서블릿 입장 혹은 Filter체인 타기
+            chain.doFilter(req, resp);
         } catch (Exception e) {
             customResponse("토큰 검증 실패", resp);
         }
 
-        // 디스패쳐 서블릿 입장 혹은 Filter체인 타기
-        chain.doFilter(req, resp);
     }
 
     private void customResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
