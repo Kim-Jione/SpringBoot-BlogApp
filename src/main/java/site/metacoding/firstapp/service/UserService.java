@@ -35,14 +35,15 @@ public class UserService {
 
 	@Transactional
 	public SessionUserDto 로그인(LoginReqDto loginReqDto) {
+		String encPassword = sha256.encrypt(loginReqDto.getPassword());
 		User userPS = userDao.findByUsername(loginReqDto.getUsername());
 		if (userPS == null) {
 			return null;
 		}
-		if (userPS.getPassword().equals(loginReqDto.getPassword())) {
+		if (userPS.getPassword().equals(encPassword)) {
 			return new SessionUserDto(userPS);
 		}
-		return null;
+		throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
 	}
 
 }
