@@ -56,11 +56,11 @@ public class PostController {
 	}
 
 	// 게시글 등록 응답
-	@PostMapping(value="/s/post/write")
-	public CMRespDto<?> write(@RequestPart(value = "file", required = false) MultipartFile file,
-			@RequestPart(value = "saveReqDto", required = false) SaveReqDto saveReqDto)
+	@PostMapping("/s/post/write")
+	public CMRespDto<?> write(@RequestPart("file") MultipartFile file,
+			@RequestPart("saveReqDto") SaveReqDto saveReqDto)
 			throws Exception {
-				System.out.println("디버그 Title : " + saveReqDto.getPostTitle());
+		System.out.println("디버그 Title : " + saveReqDto.getPostTitle());
 		System.out.println("디버그 Content : " + saveReqDto.getPostContent());
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
@@ -70,7 +70,7 @@ public class PostController {
 		if (userPS == null) {
 			return new CMRespDto<>(-1, "로그인 아이디가 다릅니다.", null);
 		}
-		
+
 		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal, file);
 		return new CMRespDto<>(1, "게시글등록 성공", saveRespDto);
 	}
@@ -92,7 +92,8 @@ public class PostController {
 
 	// 게시글 수정 응답
 	@PutMapping("/s/post/update")
-	public @ResponseBody CMRespDto<?> update(@RequestBody UpdateReqDto updateReqDto) {
+	public CMRespDto<?> update(@RequestPart("file") MultipartFile file,
+			@RequestPart("updateReqDto") UpdateReqDto updateReqDto) throws Exception {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
@@ -104,7 +105,7 @@ public class PostController {
 		if (principal.getUserId() != postPS.getUserId()) {
 			return new CMRespDto<>(-1, "본인이 작성한 게시글이 아닙니다.", null);
 		}
-		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal);
+		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal, file);
 		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
 	}
 
