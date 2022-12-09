@@ -26,4 +26,12 @@ public class User {
 		this.password = password;
 		this.email = email;
 	}
+
+	public User(Integer userId, String nickname, String email, String profileImg) {
+		super();
+		this.userId = userId;
+		this.nickname = nickname;
+		this.email = email;
+		this.profileImg = profileImg;
+	}
 }
