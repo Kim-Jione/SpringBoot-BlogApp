@@ -21,6 +21,15 @@
 		VALUES(#{username}, #{nickname},#{password}, #{email}, #{profileImg}, now(), now())
 	</insert>
 
+	<update id="update">
+          UPDATE user
+		  SET 
+		  nickname = #{nickname},
+		  email = #{email},
+		  profile_img = #{profileImg}
+		  WHERE user_id=#{userId}
+    </update>
+
 	<delete id="delete">
 		DELETE FROM user WHERE user_id = #{userId}
 	</delete>
@@ -56,6 +65,13 @@
 		FROM user 
 		WHERE user_id=#{usersId}
     </select>
+
+	<select id="updateResult" resultType="site.metacoding.firstapp.web.dto.response.user.UpdateRespDto">  
+		SELECT user_id,nickname,email,profile_img
+		FROM user 
+		WHERE user_id=#{userId}
+    </select>
+
 </mapper>
     
 

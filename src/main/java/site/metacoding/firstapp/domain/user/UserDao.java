@@ -8,6 +8,7 @@ import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
+import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
 public interface UserDao {
 
@@ -16,6 +17,8 @@ public interface UserDao {
 	public List<User> findAll();
 
 	public void insert(User user);
+
+	public void update(User user);
 
 	public void delete(User user);
 
@@ -29,5 +32,6 @@ public interface UserDao {
 
 	public User findByUsersId(Integer usersId);
 
+	public UpdateRespDto updateResult(Integer userId);
 
 }

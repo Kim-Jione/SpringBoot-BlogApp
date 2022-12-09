@@ -5,19 +5,25 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.firstapp.domain.post.Post;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
 import site.metacoding.firstapp.utill.JWTToken.CreateJWTToken;
 import site.metacoding.firstapp.web.dto.CMRespDto;
+import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -90,4 +96,19 @@ public class UserController {
 		return new CMRespDto<>(1, "개인정보수정 페이지 불러오기 성공", infoRespDto);
 	}
 
+	// 회원정보 수정
+	@PutMapping("/s/user/update")
+	public CMRespDto<?> update(@RequestPart("file") MultipartFile file,
+			@RequestPart("updateReqDto") UpdateReqDto updateReqDto) throws Exception {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		User userPS = userDao.findById(updateReqDto.getUserId());
+		if (userPS == null) {
+			return new CMRespDto<>(-1, "해당 유저가 존재하지 않습니다.", null);
+		}
+		UpdateRespDto updateRespDto = userService.회원정보수정하기(updateReqDto, principal, file);
+		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
+	}
 }
