@@ -17,6 +17,7 @@ import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
+import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
@@ -88,6 +89,13 @@ public class UserService {
 		UpdateRespDto updateRespDto = userDao.updateResult(updateReqDto.getUserId());
 
 		return updateRespDto;
+	}
+
+	public LeaveRespDto 회원탈퇴하기(Integer userId) {
+		LeaveRespDto leaveRespDto = userDao.findByLeaveId(userId);
+		userDao.leave(userId);
+		return leaveRespDto;
+		
 	}
 
 }

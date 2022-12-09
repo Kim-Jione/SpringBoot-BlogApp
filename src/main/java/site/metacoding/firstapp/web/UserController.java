@@ -3,7 +3,9 @@ package site.metacoding.firstapp.web;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,20 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.firstapp.domain.post.Post;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
 import site.metacoding.firstapp.utill.JWTToken.CreateJWTToken;
 import site.metacoding.firstapp.web.dto.CMRespDto;
-import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
-import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
+import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
+import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
+import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
 @RequiredArgsConstructor
 @RestController
@@ -110,5 +112,22 @@ public class UserController {
 		}
 		UpdateRespDto updateRespDto = userService.회원정보수정하기(updateReqDto, principal, file);
 		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
+	}
+
+	// 회원탈퇴
+	@DeleteMapping("/s/user/leave/{userId}")
+	public @ResponseBody CMRespDto<?> leave(@PathVariable Integer userId
+			) {
+				SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+				if (principal == null) {
+					return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+				}
+				User userPS = userDao.findById(userId);
+				if (userPS == null) {
+					return new CMRespDto<>(-1, "해당 유저가 존재하지 않습니다.", null);
+				}
+				
+				LeaveRespDto leaveRespDto = userService.회원탈퇴하기(userId);
+		return new CMRespDto<>(1, "회원탈퇴 성공", leaveRespDto);
 	}
 }
