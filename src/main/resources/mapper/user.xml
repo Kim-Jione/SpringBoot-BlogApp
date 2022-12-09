@@ -72,6 +72,17 @@
 		WHERE user_id=#{userId}
     </select>
 
+	 <delete id="leave">
+		DELETE FROM love WHERE user_id = #{userId};
+		DELETE FROM post WHERE user_id = #{userId};
+		DELETE FROM subscribe WHERE user_id = #{userId} AND users_id=#{userId};
+		DELETE FROM user WHERE user_id = #{userId};
+    </delete>
+
+	<select id="findByLeaveId"  resultType="site.metacoding.firstapp.web.dto.response.user.LeaveRespDto">
+		SELECT * FROM user WHERE user_id=#{userId}
+    </select>
+
 </mapper>
     
 
