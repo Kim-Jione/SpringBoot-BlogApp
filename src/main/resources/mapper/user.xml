@@ -51,7 +51,7 @@
 		resultType="site.metacoding.firstapp.web.dto.response.user.InfoRespDto">
 		SELECT * 
 		FROM user 
-		WHERE user_id=#{userId}
+		WHERE user_ 
 	</select>
 
 	<select id="findAllUsername" resultType="site.metacoding.firstapp.web.dto.auth.FindByUsernameDto">
@@ -84,6 +84,13 @@
 		SELECT * FROM user WHERE user_id=#{userId}
     </select>
 
+	<update id="passwordUpdate">
+        UPDATE user
+		SET 
+		password = #{passwordUpdate}
+		WHERE user_id=#{userId}
+    </update>
+	
 </mapper>
     
 
