@@ -74,8 +74,9 @@
 
 	 <delete id="leave">
 		DELETE FROM love WHERE user_id = #{userId};
+		DELETE FROM visit WHERE user_id = #{userId};
 		DELETE FROM post WHERE user_id = #{userId};
-		DELETE FROM subscribe WHERE user_id = #{userId} AND users_id=#{userId};
+		DELETE FROM subscribe WHERE user_id = #{userId} OR users_id=#{userId};
 		DELETE FROM user WHERE user_id = #{userId};
     </delete>
 
