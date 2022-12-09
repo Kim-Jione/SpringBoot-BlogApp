@@ -20,9 +20,11 @@ import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.service.UserService;
 import site.metacoding.firstapp.utill.JWTToken.CookieForToken;
 import site.metacoding.firstapp.utill.JWTToken.CreateJWTToken;
+import site.metacoding.firstapp.utill.SHA256;
 import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.request.user.PasswordUpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
@@ -35,6 +37,7 @@ import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 public class UserController {
 	private final UserService userService;
 	private final HttpSession session;
+	private final SHA256 sha256;
 	private final UserDao userDao;
 
 	// 회원가입 페이지
@@ -116,18 +119,36 @@ public class UserController {
 
 	// 회원탈퇴
 	@DeleteMapping("/s/user/leave/{userId}")
-	public @ResponseBody CMRespDto<?> leave(@PathVariable Integer userId
-			) {
-				SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
-				if (principal == null) {
-					return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
-				}
-				User userPS = userDao.findById(userId);
-				if (userPS == null) {
-					return new CMRespDto<>(-1, "해당 유저가 존재하지 않습니다.", null);
-				}
-				
-				LeaveRespDto leaveRespDto = userService.회원탈퇴하기(userId);
+	public @ResponseBody CMRespDto<?> leave(@PathVariable Integer userId) {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		User userPS = userDao.findById(userId);
+		if (userPS == null) {
+			return new CMRespDto<>(-1, "해당 유저가 존재하지 않습니다.", null);
+		}
+
+		LeaveRespDto leaveRespDto = userService.회원탈퇴하기(userId);
 		return new CMRespDto<>(1, "회원탈퇴 성공", leaveRespDto);
+	}
+
+	// 비밀번호 수정
+	@PutMapping("/s/user/password/update")
+	public @ResponseBody CMRespDto<?> passwordUpdate(@RequestBody PasswordUpdateReqDto passwordUpdateReqDto) {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		String encPassword = sha256.encrypt(passwordUpdateReqDto.getPassword());
+		passwordUpdateReqDto.setPassword(encPassword);
+
+		if (principal == null) {
+			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
+		}
+		User userPS = userDao.findById(principal.getUserId());
+		if (userPS == null) {
+			return new CMRespDto<>(-1, "해당 유저가 존재하지 않습니다.", null);
+		}
+
+		userService.비밀번호수정하기(passwordUpdateReqDto, principal);
+		return new CMRespDto<>(1, "비밀번호 수정 성공", null);
 	}
 }

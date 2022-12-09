@@ -3,11 +3,12 @@ package site.metacoding.firstapp.domain.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Param;
+
 import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
-import site.metacoding.firstapp.web.dto.response.user.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
@@ -38,5 +39,7 @@ public interface UserDao {
 	public void leave(Integer userId);
 
 	public LeaveRespDto findByLeaveId(Integer userId);
+
+	public void passwordUpdate(@Param("passwordUpdate") String passwordUpdate, @Param("userId") Integer userId);
 
 }
