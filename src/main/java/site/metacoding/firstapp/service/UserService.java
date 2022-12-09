@@ -15,6 +15,7 @@ import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.utill.SHA256;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
+import site.metacoding.firstapp.web.dto.request.user.PasswordUpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
@@ -55,10 +56,10 @@ public class UserService {
 		throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
 	}
 
-	public UpdateRespDto 회원정보수정하기(UpdateReqDto updateReqDto, SessionUserDto principal, MultipartFile file) 
+	public UpdateRespDto 회원정보수정하기(UpdateReqDto updateReqDto, SessionUserDto principal, MultipartFile file)
 			throws Exception {
-				
-				int pos = file.getOriginalFilename().lastIndexOf(".");
+
+		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
 		String filePath = "C:\\temp\\img\\";
 
@@ -95,7 +96,13 @@ public class UserService {
 		LeaveRespDto leaveRespDto = userDao.findByLeaveId(userId);
 		userDao.leave(userId);
 		return leaveRespDto;
-		
+
+	}
+
+	public void 비밀번호수정하기(PasswordUpdateReqDto passwordUpdateReqDto, SessionUserDto principal) {
+		String encPassword = sha256.encrypt(passwordUpdateReqDto.getPasswordUpdate());
+		passwordUpdateReqDto.setPasswordUpdate(encPassword);
+		userDao.passwordUpdate(passwordUpdateReqDto.getPasswordUpdate(), principal.getUserId());
 	}
 
 }
