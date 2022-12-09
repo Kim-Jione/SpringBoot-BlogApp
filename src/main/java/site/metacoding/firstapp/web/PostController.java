@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.post.Post;
 import site.metacoding.firstapp.domain.post.PostDao;
+import site.metacoding.firstapp.domain.user.User;
+import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.domain.visit.Visit;
 import site.metacoding.firstapp.service.PostService;
 import site.metacoding.firstapp.service.VisitService;
@@ -38,6 +42,7 @@ public class PostController {
 	private final HttpSession session;
 	private final PostService postService;
 	private final PostDao postDao;
+	private final UserDao userDao;
 	private final VisitService visitService;
 
 	// 게시글등록 페이지
@@ -52,15 +57,21 @@ public class PostController {
 
 	// 게시글 등록 응답
 	@PostMapping("/s/post/write")
-	public @ResponseBody CMRespDto<?> write(@RequestBody SaveReqDto saveReqDto) {
+	public CMRespDto<?> write(@RequestPart("file") MultipartFile file,
+			@RequestPart("saveReqDto") SaveReqDto saveReqDto)
+			throws Exception {
+		System.out.println("디버그 Title : " + saveReqDto.getPostTitle());
+		System.out.println("디버그 Content : " + saveReqDto.getPostContent());
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
-		if (saveReqDto.getUserId() != principal.getUserId()) {
+		User userPS = userDao.findById(principal.getUserId());
+		if (userPS == null) {
 			return new CMRespDto<>(-1, "로그인 아이디가 다릅니다.", null);
 		}
-		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal);
+
+		SaveRespDto saveRespDto = postService.게시글등록하기(saveReqDto, principal, file);
 		return new CMRespDto<>(1, "게시글등록 성공", saveRespDto);
 	}
 
@@ -81,7 +92,8 @@ public class PostController {
 
 	// 게시글 수정 응답
 	@PutMapping("/s/post/update")
-	public @ResponseBody CMRespDto<?> update(@RequestBody UpdateReqDto updateReqDto) {
+	public CMRespDto<?> update(@RequestPart("file") MultipartFile file,
+			@RequestPart("updateReqDto") UpdateReqDto updateReqDto) throws Exception {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		if (principal == null) {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
@@ -93,7 +105,7 @@ public class PostController {
 		if (principal.getUserId() != postPS.getUserId()) {
 			return new CMRespDto<>(-1, "본인이 작성한 게시글이 아닙니다.", null);
 		}
-		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal);
+		UpdateRespDto updateRespDto = postService.게시글수정하기(updateReqDto, principal, file);
 		return new CMRespDto<>(1, "게시글수정 성공", updateRespDto);
 	}
 
