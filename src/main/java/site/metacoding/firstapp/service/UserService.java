@@ -109,21 +109,21 @@ public class UserService {
 		userDao.passwordUpdate(passwordUpdateReqDto.getPasswordUpdate(), principal.getUserId());
 	}
 
-	public MailDTO 임시비밀번호만들기(String userEmail) {
+	public MailDTO 임시비밀번호만들기(String email) {
 		String str = 랜덤비밀번호생성();
 		MailDTO dto = new MailDTO();
-		dto.setAddress(userEmail); // 보낼 이메일 주소
+		dto.setAddress(email); // 보낼 이메일 주소
 		dto.setTitle("제이스토리 임시비밀번호 안내 이메일 입니다.");
 		dto.setMessage("안녕하세요. 제이스토리 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
 				+ str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
-		비밀번호수정(str, userEmail); // 임시비밀번호로 DB 업데이트
+		비밀번호수정(str, email); // 임시비밀번호로 DB 업데이트
 		return dto;
 	}
 
 	// 임시 비밀번호로 업데이트
-	public void 비밀번호수정(String str, String userEmail) {
+	public void 비밀번호수정(String str, String email) {
 		String passwordUpdate = str; // 임시비밀번호 가져오기
-		Integer userId = userDao.findByUserEmail(userEmail); // 입력받은 이메일 있는지 select
+		Integer userId = userDao.findByUserEmail(email); // 입력받은 이메일 있는지 select
 		userDao.passwordUpdate(passwordUpdate, userId); // 유저 찾아서 비밀번호 업데이트
 	}
 
