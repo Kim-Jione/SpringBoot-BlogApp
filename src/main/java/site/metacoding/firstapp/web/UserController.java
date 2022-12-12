@@ -26,6 +26,7 @@ import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.request.user.PasswordUpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
+import site.metacoding.firstapp.web.dto.response.MailDTO;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
@@ -150,5 +151,17 @@ public class UserController {
 
 		userService.비밀번호수정하기(passwordUpdateReqDto, principal);
 		return new CMRespDto<>(1, "비밀번호 수정 성공", null);
+	}
+
+	// 이메일 보내기
+	@PostMapping("/user/sendEmail")
+	public CMRespDto<?> sendEmail(String userEmail) {
+		Integer userPS = userDao.findByUserEmail(userEmail);
+		if (userPS == null) {
+			return new CMRespDto<>(-1, "해당 이메일이 존재하지 않습니다.", null);
+		}
+		MailDTO mailDto = userService.임시비밀번호만들기(userEmail);
+		userService.이메일보내기(mailDto);
+		return new CMRespDto<>(1, "이메일 보내기 성공", null);
 	}
 }

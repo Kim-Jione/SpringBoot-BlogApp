@@ -90,7 +90,13 @@
 		password = #{passwordUpdate}
 		WHERE user_id=#{userId}
     </update>
-	
+
+    <select id="findByUserEmail" resultType="Integer">
+        SELECT user_id
+		FROM user
+		WHERE email=#{userEmail}
+    </select>
+
 </mapper>
     
 
