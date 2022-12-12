@@ -110,25 +110,25 @@ public class UserService {
 	}
 
 	public MailDTO 임시비밀번호만들기(String userEmail) {
-		String str = 랜덤함수비밀번호();
+		String str = 랜덤비밀번호생성();
 		MailDTO dto = new MailDTO();
 		dto.setAddress(userEmail); // 보낼 이메일 주소
 		dto.setTitle("제이스토리 임시비밀번호 안내 이메일 입니다.");
 		dto.setMessage("안녕하세요. 제이스토리 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
 				+ str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
-		updatePassword(str, userEmail); // 임시비밀번호로 DB 업데이트
+		비밀번호수정(str, userEmail); // 임시비밀번호로 DB 업데이트
 		return dto;
 	}
 
 	// 임시 비밀번호로 업데이트
-	public void updatePassword(String str, String userEmail) {
+	public void 비밀번호수정(String str, String userEmail) {
 		String passwordUpdate = str; // 임시비밀번호 가져오기
 		Integer userId = userDao.findByUserEmail(userEmail); // 입력받은 이메일 있는지 select
 		userDao.passwordUpdate(passwordUpdate, userId); // 유저 찾아서 비밀번호 업데이트
 	}
 
 	// 랜덤함수로 임시비밀번호 구문 만들기
-	public String 랜덤함수비밀번호() {
+	public String 랜덤비밀번호생성() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
