@@ -42,4 +42,6 @@ public interface UserDao {
 
 	public void passwordUpdate(@Param("passwordUpdate") String passwordUpdate, @Param("userId") Integer userId);
 
+	public Integer findByUserEmail(String userEmail);
+
 }
