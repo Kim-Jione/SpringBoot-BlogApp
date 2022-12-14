@@ -154,14 +154,21 @@ public class UserController {
 	}
 
 	// 임시 비밀번호 보내기
-	@PostMapping("/user/sendEmail")
-	public CMRespDto<?> sendEmail(String email) {
+	@PostMapping("/user/sendPassword")
+	public CMRespDto<?> sendPassword(String email) {
 		Integer userPS = userDao.findByUserEmail(email);
 		if (userPS == null) {
 			return new CMRespDto<>(-1, "해당 이메일이 존재하지 않습니다.", null);
 		}
 		MailDTO mailDto = userService.임시비밀번호만들기(email);
 		userService.이메일보내기(mailDto);
+		return new CMRespDto<>(1, "임시 비밀번호 보내기 성공", null);
+	}
+
+	// 임시 이메일 보내기
+	@PostMapping("/user/sendEmail")
+	public CMRespDto<?> sendEmail(String email) {
+		userService.인증코드보내기(email);
 		return new CMRespDto<>(1, "이메일 보내기 성공", null);
 	}
 

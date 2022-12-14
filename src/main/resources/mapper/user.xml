@@ -51,7 +51,7 @@
 		resultType="site.metacoding.firstapp.web.dto.response.user.InfoRespDto">
 		SELECT * 
 		FROM user 
-		WHERE user_ 
+		WHERE user_id=#{userId}
 	</select>
 
 	<select id="findAllUsername" resultType="site.metacoding.firstapp.web.dto.auth.FindByUsernameDto">
