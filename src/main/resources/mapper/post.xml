@@ -105,11 +105,11 @@
     </select>
 
 		<select id="findByProfileInfo" resultType="site.metacoding.firstapp.web.dto.response.user.ProfileDto">
- 		 SELECT s.to_user_id,if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img 
+ 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img 
 		FROM   user u
 		LEFT JOIN (SELECT subscribe_id, from_user_id, to_user_id FROM subscribe WHERE from_user_id=#{fromUserId} AND to_user_id=#{toUserId}) s
-		ON u.user_id = s.from_user_id
-		WHERE u.user_id=#{fromUserId}
+		ON u.user_id = s.to_user_id
+		WHERE u.user_id=#{toUserId}
     </select>
 
 </mapper>
