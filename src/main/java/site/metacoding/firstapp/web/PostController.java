@@ -20,6 +20,7 @@ import site.metacoding.firstapp.domain.post.PostDao;
 import site.metacoding.firstapp.domain.user.User;
 import site.metacoding.firstapp.domain.user.UserDao;
 import site.metacoding.firstapp.domain.visit.Visit;
+import site.metacoding.firstapp.domain.visit.VisitDao;
 import site.metacoding.firstapp.service.PostService;
 import site.metacoding.firstapp.service.VisitService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
@@ -33,7 +34,6 @@ import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
 import site.metacoding.firstapp.web.dto.response.user.MyPostListDto;
-import site.metacoding.firstapp.web.dto.response.user.MyVisitListDto;
 import site.metacoding.firstapp.web.dto.response.user.ProfileDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
@@ -44,6 +44,7 @@ public class PostController {
 	private final PostService postService;
 	private final PostDao postDao;
 	private final UserDao userDao;
+	private final VisitDao visitDao;
 	private final VisitService visitService;
 
 	// 게시글등록 페이지
@@ -207,6 +208,7 @@ public class PostController {
 		ProfileDto profileRespDto = postDao.findByProfileInfo(fromUserId, toUserId);
 
 		profileRespDto.setMyPostListDto(postDao.findMyPostList(toUserId));
+		profileRespDto.setMyVisitListDto(visitDao.findVisitList(toUserId));
 
 		return new CMRespDto<>(1, "프로필 목록 페이지 불러오기 성공", profileRespDto);
 	}

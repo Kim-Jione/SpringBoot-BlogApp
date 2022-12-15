@@ -15,7 +15,6 @@ public class ProfileDto {
 	private String nickname;
 	private String email;
 	private String profileImg;
-	private Timestamp createdAt;
 
 	// DB 컬럼 아님
 	private boolean isSubscribe;
