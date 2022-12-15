@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class SubscribeRespDto {
 	private Integer subscribeId;
-	private Integer userId;
-	private Integer usersId;
+	private Integer fromUserId;
+	private Integer toUserId;
 
-	public SubscribeRespDto(Integer subscribeId, Integer userId, Integer usersId) {
+	public SubscribeRespDto(Integer subscribeId, Integer userId, Integer toUserId) {
 		this.subscribeId = subscribeId;
-		this.userId = userId;
-		this.usersId = usersId;
+		this.fromUserId = userId;
+		this.toUserId = toUserId;
 	}
 }

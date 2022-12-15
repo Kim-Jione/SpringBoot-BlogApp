@@ -18,15 +18,15 @@
 
 	<insert id="insert">
 		INSERT
-		INTO subscribe(user_id, users_id)
-		VALUES(#{userId}, #{usersId})
+		INTO subscribe(from_user_id, to_user_id)
+		VALUES(#{fromUserId}, #{toUserId})
 	</insert>
 
     <update id="update">
           UPDATE surbscribe
 		  SET 
-		  user_id = #{userId},
-		  users_id = #{usersId}
+		  from_user_id = #{fromUserId},
+		  to_user_id = #{toUserId}
     </update>
 
 	<delete id="delete">
@@ -34,10 +34,10 @@
 	</delete>
 	
 
-    <select id="findByUserIdAndUsersId" resultType="Integer">
+    <select id="findByFromUserIdAndToUserId" resultType="Integer">
         SELECT subscribe_id
     	FROM subscribe
-    	WHERE user_id = #{userId} and users_id = #{usersId}
+    	WHERE from_user_id = #{fromUserId} and to_user_id = #{toUserId}
     </select>
 
 </mapper>
