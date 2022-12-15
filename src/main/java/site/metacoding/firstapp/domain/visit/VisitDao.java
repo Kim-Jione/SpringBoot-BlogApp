@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import site.metacoding.firstapp.web.dto.response.visit.PostRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyVisitListDto;
 
 public interface VisitDao {
 
@@ -20,5 +20,5 @@ public interface VisitDao {
 
 	public void save(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
-	public List<PostRespDto> findVisitList(Integer userId);
+	public List<MyVisitListDto> findVisitList(Integer toUserId);
 }
