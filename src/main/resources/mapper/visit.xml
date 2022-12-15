@@ -46,13 +46,13 @@
 	
 	<select id="findVisitList" resultType="site.metacoding.firstapp.web.dto.response.visit.PostRespDto">
         SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
-		u.	profile_img
+		u.	profile_img, p.updated_at
 		FROM post p
 		INNER JOIN visit v
 		ON p.post_id = v.post_id
 		INNER JOIN user u 
 		ON v.user_id = u.user_id
-		WHERE v.user_id=#{userId}
+		WHERE v.user_id=#{toUserId}
 		ORDER BY p.post_id DESC
     </select>
 

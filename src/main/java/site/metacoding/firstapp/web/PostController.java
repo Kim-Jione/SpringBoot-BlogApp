@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +30,11 @@ import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
-import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyPostListDto;
+import site.metacoding.firstapp.web.dto.response.user.MyVisitListDto;
+import site.metacoding.firstapp.web.dto.response.user.ProfileDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
@@ -150,7 +151,7 @@ public class PostController {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
 
-		List<PostRespDto> postRespDto = postService.내가쓴게시글목록보기(principal.getUserId());
+		List<MyPostListDto> postRespDto = postService.내가쓴게시글목록보기(principal.getUserId());
 		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
 	}
 
@@ -195,6 +196,19 @@ public class PostController {
 		List<ListRespDto> listRespDto = postDao.findPostList(keyword);
 		return new CMRespDto<>(1, "검색 목록 페이지 불러오기 성공", listRespDto);
 
+	}
+
+	// 유저 프로필 페이지
+	@GetMapping("/s/post/profileListForm/{toUserId}")
+	public @ResponseBody CMRespDto<?> profileListForm(@PathVariable Integer toUserId) {
+		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
+		Integer fromUserId = principal.getUserId();
+
+		ProfileDto profileRespDto = postDao.findByProfileInfo(fromUserId, toUserId);
+
+		profileRespDto.setMyPostListDto(postDao.findMyPostList(toUserId));
+
+		return new CMRespDto<>(1, "프로필 목록 페이지 불러오기 성공", profileRespDto);
 	}
 
 }

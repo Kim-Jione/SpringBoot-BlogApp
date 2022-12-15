@@ -9,9 +9,10 @@ import site.metacoding.firstapp.web.dto.response.post.DailyListDto;
 import site.metacoding.firstapp.web.dto.response.post.DeleteRespDto;
 import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.ListRespDto;
-import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyPostListDto;
+import site.metacoding.firstapp.web.dto.response.user.ProfileDto;
 
 public interface PostDao {
 
@@ -35,11 +36,13 @@ public interface PostDao {
 
 	public UpdateRespDto findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
-	public List<PostRespDto> findMyPostList(Integer userId);
+	public List<MyPostListDto> findMyPostList(Integer toUserId);
 
 	public List<DailyListDto> findDailyList();
 
 	public List<BusinessListDto> findBusinessList();
 
 	public List<ListRespDto> findPostList(String keyword);
+
+	public ProfileDto findByProfileInfo(@Param("fromUserId") Integer fromUserId, @Param("toUserId") Integer toUserId);
 }

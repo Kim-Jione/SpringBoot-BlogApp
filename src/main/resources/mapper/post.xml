@@ -70,13 +70,12 @@
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 	
-	<select id="findMyPostList" resultType="site.metacoding.firstapp.web.dto.response.post.PostRespDto">
-        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, p.role,
-		u.	profile_img
+	<select id="findMyPostList" resultType="site.metacoding.firstapp.web.dto.response.user.MyPostListDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, p.role, p.updated_at
 		FROM post p
 		INNER JOIN user u 
 		ON p.user_id=u.user_id
-		WHERE p.user_id=#{userId}
+		WHERE p.user_id=#{toUserId}
 		ORDER BY p.post_id DESC
     </select>
 
@@ -103,6 +102,14 @@
 		ON u.user_id = p.user_id
 		WHERE p.post_title LIKE '%${keyword}%' 
 		ORDER BY p.post_id DESC
+    </select>
+
+		<select id="findByProfileInfo" resultType="site.metacoding.firstapp.web.dto.response.user.ProfileDto">
+ 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img 
+		FROM   user u
+		LEFT JOIN (SELECT subscribe_id, from_user_id, to_user_id FROM subscribe WHERE from_user_id=#{fromUserId} AND to_user_id=#{toUserId}) s
+		ON u.user_id = s.from_user_id
+		WHERE u.user_id=#{fromUserId}
     </select>
 
 </mapper>

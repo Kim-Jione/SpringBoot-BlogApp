@@ -19,6 +19,7 @@ import site.metacoding.firstapp.web.dto.response.post.DetailRespDto;
 import site.metacoding.firstapp.web.dto.response.post.PostRespDto;
 import site.metacoding.firstapp.web.dto.response.post.SaveRespDto;
 import site.metacoding.firstapp.web.dto.response.post.UpdateRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyPostListDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 
 @RequiredArgsConstructor
@@ -110,8 +111,8 @@ public class PostService {
 		return detailRespDto;
 	}
 
-	public List<PostRespDto> 내가쓴게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = postDao.findMyPostList(userId);
+	public List<MyPostListDto> 내가쓴게시글목록보기(Integer userId) {
+		List<MyPostListDto> psotRespDto = postDao.findMyPostList(userId);
 		return psotRespDto;
 	}
 
