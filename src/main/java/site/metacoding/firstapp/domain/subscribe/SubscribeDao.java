@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-
 public interface SubscribeDao {
 	public Subscribe findById(Integer subscribeId);
 
@@ -16,7 +15,7 @@ public interface SubscribeDao {
 
 	public void delete(Integer subscribeId);
 
-	public Integer findByUserIdAndUsersId(@Param("userId") Integer userId, @Param("usersId") Integer usersId);
-
+	public Integer findByFromUserIdAndToUserId(@Param("fromUserId") Integer fromUserId,
+			@Param("toUserId") Integer toUserId);
 
 }

@@ -12,8 +12,8 @@ public class SubscribeService {
 
 	private final SubscribeDao subscribeDao;
 
-	public void 구독하기(Integer userId, Integer usersId) {
-		Subscribe subscribe = new Subscribe(userId, usersId);
+	public void 구독하기(Integer fromUserId, Integer toUserId) {
+		Subscribe subscribe = new Subscribe(fromUserId, toUserId);
 		subscribeDao.insert(subscribe);
 	}
 
@@ -21,7 +21,8 @@ public class SubscribeService {
 		subscribeDao.delete(subscribeId);
 	}
 
-	public Integer 구독Id불러오기(Integer userId, Integer usersId) {
-		return subscribeDao.findByUserIdAndUsersId(userId, usersId);
+	public Integer 구독Id불러오기(Integer fromUserId, Integer toUserId) {
+		System.out.println("디버그 =-==============ㅁㅇㄴㄹ==");
+		return subscribeDao.findByFromUserIdAndToUserId(fromUserId, toUserId);
 	}
 }
