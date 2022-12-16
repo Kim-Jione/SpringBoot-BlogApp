@@ -20,6 +20,7 @@ import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.request.user.PasswordUpdateReqDto;
 import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.MailDTO;
+import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
@@ -152,6 +153,39 @@ public class UserService {
 		message.setFrom("보내는사람이메일"); // 적어야함
 		// System.out.println("디버그 message : " + message);
 		mailSender.send(message);
+	}
+
+	public UpdateRespDto 프로필이미지수정하기(SessionUserDto principal, MultipartFile file) throws Exception{
+		int pos = file.getOriginalFilename().lastIndexOf(".");
+		String extension = file.getOriginalFilename().substring(pos + 1);
+		String filePath = "C:\\temp\\img\\";
+
+		// 랜덤 키 생성
+		String imgSaveName = UUID.randomUUID().toString();
+
+		// 랜덤 키와 파일명을 합쳐 파일명 중복을 피함
+		String imgName = imgSaveName + "." + extension;
+
+		// 파일이 저장되는 폴더가 없으면 폴더를 생성
+		File makeFileFolder = new File(filePath);
+		if (!makeFileFolder.exists()) {
+			if (!makeFileFolder.mkdir()) {
+				throw new Exception("File.mkdir():Fail.");
+			}
+		}
+
+		// 이미지 저장
+		File dest = new File(filePath, imgName);
+		try {
+			Files.copy(file.getInputStream(), dest.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("사진저장 실패");
+		}
+		InfoRespDto userPS = userDao.findByUser(principal.getUserId());
+		userPS.setProfileImg(imgName);
+		UpdateRespDto updateRespDto = userDao.imgUpdateResult(principal.getUserId());
+		return updateRespDto;
 	}
 
 }

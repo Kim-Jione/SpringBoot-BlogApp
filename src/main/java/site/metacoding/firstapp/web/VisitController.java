@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.service.VisitService;
 import site.metacoding.firstapp.web.dto.CMRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyVisitListDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
-import site.metacoding.firstapp.web.dto.response.visit.PostRespDto;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,8 +29,8 @@ public class VisitController {
 			return new CMRespDto<>(-1, "로그인을 진행해주세요.", null);
 		}
 
-		List<PostRespDto> postRespDto = visitService.내가방문한게시글목록보기(principal.getUserId());
-		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", postRespDto);
+		List<MyVisitListDto> myVisitListDto = visitService.내가방문한게시글목록보기(principal.getUserId());
+		return new CMRespDto<>(1, "내가 쓴 게시글 목록 페이지 성공", myVisitListDto);
 	}
 
 }
