@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.firstapp.domain.visit.VisitDao;
-import site.metacoding.firstapp.web.dto.response.visit.PostRespDto;
+import site.metacoding.firstapp.web.dto.response.user.MyVisitListDto;
 
 @RequiredArgsConstructor
 @Service
@@ -22,8 +22,8 @@ public class VisitService {
 		visitDao.save(userId, postId);
 	}
 
-	public List<PostRespDto> 내가방문한게시글목록보기(Integer userId) {
-		List<PostRespDto> psotRespDto = visitDao.findVisitList(userId);
+	public List<MyVisitListDto> 내가방문한게시글목록보기(Integer userId) {
+		List<MyVisitListDto> psotRespDto = visitDao.findVisitList(userId);
 		return psotRespDto;
 	}
 

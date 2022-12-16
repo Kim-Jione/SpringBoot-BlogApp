@@ -51,7 +51,7 @@
 		resultType="site.metacoding.firstapp.web.dto.response.user.InfoRespDto">
 		SELECT * 
 		FROM user 
-		WHERE user_ 
+		WHERE user_id=#{userId}
 	</select>
 
 	<select id="findAllUsername" resultType="site.metacoding.firstapp.web.dto.auth.FindByUsernameDto">
@@ -95,6 +95,12 @@
         SELECT user_id
 		FROM user
 		WHERE email=#{userEmail}
+    </select>
+
+	<select id="imgUpdateResult" resultType="site.metacoding.firstapp.web.dto.response.user.UpdateRespDto">  
+		SELECT user_id,nickname,email,profile_img
+		FROM user 
+		WHERE user_id=#{userId}
     </select>
 
 </mapper>

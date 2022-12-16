@@ -44,4 +44,6 @@ public interface UserDao {
 
 	public Integer findByUserEmail(String userEmail);
 
+	public UpdateRespDto imgUpdateResult(Integer userId);
+
 }

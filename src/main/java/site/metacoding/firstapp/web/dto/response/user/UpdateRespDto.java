@@ -7,7 +7,5 @@ import lombok.Setter;
 @Getter
 public class UpdateRespDto {
 	private Integer userId;
-	private String nickname;
-	private String email;
 	private String profileImg;
 }
