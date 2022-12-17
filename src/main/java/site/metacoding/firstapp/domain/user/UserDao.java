@@ -9,6 +9,7 @@ import site.metacoding.firstapp.web.dto.auth.FindByUsernameDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
+import site.metacoding.firstapp.web.dto.response.user.PrincipalRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
@@ -45,5 +46,7 @@ public interface UserDao {
 	public Integer findByUserEmail(String userEmail);
 
 	public UpdateRespDto imgUpdateResult(Integer userId);
+
+	public PrincipalRespDto loginResult(String username);
 
 }

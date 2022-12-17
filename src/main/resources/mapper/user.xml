@@ -103,6 +103,12 @@
 		WHERE user_id=#{userId}
     </select>
 
+	<select id="loginResult" resultType="site.metacoding.firstapp.web.dto.response.user.PrincipalRespDto">  
+		SELECT *
+		FROM user 
+		WHERE username=#{username}
+    </select>
+
 </mapper>
     
 

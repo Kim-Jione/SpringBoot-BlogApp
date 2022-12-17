@@ -25,11 +25,11 @@ import site.metacoding.firstapp.web.dto.CMRespDto;
 import site.metacoding.firstapp.web.dto.request.user.JoinReqDto;
 import site.metacoding.firstapp.web.dto.request.user.LoginReqDto;
 import site.metacoding.firstapp.web.dto.request.user.PasswordUpdateReqDto;
-import site.metacoding.firstapp.web.dto.request.user.UpdateReqDto;
 import site.metacoding.firstapp.web.dto.response.MailDTO;
 import site.metacoding.firstapp.web.dto.response.user.InfoRespDto;
 import site.metacoding.firstapp.web.dto.response.user.JoinRespDto;
 import site.metacoding.firstapp.web.dto.response.user.LeaveRespDto;
+import site.metacoding.firstapp.web.dto.response.user.PrincipalRespDto;
 import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 import site.metacoding.firstapp.web.dto.response.user.UpdateRespDto;
 
@@ -75,9 +75,9 @@ public class UserController {
 		String token = CreateJWTToken.createToken(principal); // 로그인 될시 토큰생성
 		resp.addHeader("Authorization", "Bearer " + token); // 헤더에 토큰 추가
 		resp.addCookie(CookieForToken.setCookie(token)); // 쿠키 객체를 웹 브라우저로 보낸다. 쿠키 저장소에 저장하게 함
-
+		PrincipalRespDto principalRespDto = userDao.loginResult(loginReqDto.getUsername());
 		session.setAttribute("principal", principal);
-		return new CMRespDto<>(1, "로그인성공", principal);
+		return new CMRespDto<>(1, "로그인성공", principalRespDto);
 	}
 
 	// 로그아웃
