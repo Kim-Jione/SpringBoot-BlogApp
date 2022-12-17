@@ -155,7 +155,7 @@ public class UserService {
 		mailSender.send(message);
 	}
 
-	public UpdateRespDto 프로필이미지수정하기(SessionUserDto principal, MultipartFile file) throws Exception{
+	public UpdateRespDto 프로필이미지수정하기(SessionUserDto principal, MultipartFile file) throws Exception {
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
 		String filePath = "C:\\temp\\img\\";
@@ -182,8 +182,8 @@ public class UserService {
 			e.printStackTrace();
 			System.out.println("사진저장 실패");
 		}
-		InfoRespDto userPS = userDao.findByUser(principal.getUserId());
-		userPS.setProfileImg(imgName);
+
+		userDao.updateByProfileImg(imgName, principal.getUserId());
 		UpdateRespDto updateRespDto = userDao.imgUpdateResult(principal.getUserId());
 		return updateRespDto;
 	}

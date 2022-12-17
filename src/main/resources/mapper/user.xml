@@ -109,6 +109,13 @@
 		WHERE username=#{username}
     </select>
 
+	<update id="updateByProfileImg">
+        UPDATE user
+		SET 
+		profile_img = #{imgName}
+		WHERE user_id=#{userId}
+    </update>
+
 </mapper>
     
 

@@ -204,10 +204,10 @@ public class PostController {
 	public @ResponseBody CMRespDto<?> profileListForm(@PathVariable Integer toUserId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		Integer fromUserId = principal.getUserId();
-
 		ProfileDto profileRespDto = postDao.findByProfileInfo(fromUserId, toUserId);
-
+		
 		profileRespDto.setMyPostListDto(postDao.findMyPostList(toUserId));
+		System.out.println("디버그 :ㅁㅇㄴㄹㄴㅇㅁ ");
 		profileRespDto.setMyVisitListDto(visitDao.findVisitList(toUserId));
 
 		return new CMRespDto<>(1, "프로필 목록 페이지 불러오기 성공", profileRespDto);

@@ -49,4 +49,6 @@ public interface UserDao {
 
 	public PrincipalRespDto loginResult(String username);
 
+	public void updateByProfileImg(@Param("imgName") String imgName, @Param("userId") Integer userId);
+
 }
