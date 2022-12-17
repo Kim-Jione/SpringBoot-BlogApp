@@ -14,7 +14,7 @@ import site.metacoding.firstapp.web.dto.response.user.SessionUserDto;
 public class JWTToken {
 
     public static class CreateJWTToken {
-// (헤더 + 페이로드)와 서버가 갖고 있는 유일한 key 값을 합친 것을 헤더에서 정의한 알고리즘으로 암호화를 한다.
+        // (헤더 + 페이로드)와 서버가 갖고 있는 유일한 key 값을 합친 것을 헤더에서 정의한 알고리즘으로 암호화를 한다.
         public static String createToken(SessionUserDto sessionUserDto) {
 
             HashMap<String, Object> map = new HashMap<>(); // 해쉬맵 장점 get()을 통해서 key-value로 저장되어 있는 것을 꺼내올 수 있다,

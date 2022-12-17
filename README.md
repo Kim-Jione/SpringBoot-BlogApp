@@ -19,7 +19,7 @@ CREATE DATABASE blogappdb;
 USE blogappdb;
 
 create table user(
-    users_id int primary KEY auto_increment,
+    user_id int primary KEY auto_increment,
     username VARCHAR(20) UNIQUE ,
     password VARCHAR(500),
     email VARCHAR(50) UNIQUE,
