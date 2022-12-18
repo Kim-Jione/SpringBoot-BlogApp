@@ -65,8 +65,8 @@
     </select>
 
  	<select id="findByUserIdAndPostId" resultType="site.metacoding.firstapp.web.dto.response.post.UpdateRespDto">
-        SELECT *
-    	FROM post
+        SELECT p.user_id ownerUserId, p.post_title, p.role, p.post_content, p.post_thumnail
+    	FROM post p
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 	
