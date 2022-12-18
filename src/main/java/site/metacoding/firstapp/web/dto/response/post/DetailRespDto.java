@@ -13,7 +13,7 @@ public class DetailRespDto {
 	private String postContent;
 	private String postThumnail;
 	private String role;
-	private Integer userId;
+	private Integer ownerUserId;
 	private Timestamp createdAt;
 	private String username;
 	private String nickname;

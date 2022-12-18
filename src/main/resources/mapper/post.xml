@@ -57,7 +57,7 @@
     </select>
 
 	<select id="findByDetail" resultType="site.metacoding.firstapp.web.dto.response.post.DetailRespDto">
-    	SELECT *
+		SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.role, p.user_id ownerUserId, p.created_at, u.username, u.nickname, u.profile_img
 		FROM post p
 		LEFT JOIN user u 
 		ON p.user_id = u.user_id
