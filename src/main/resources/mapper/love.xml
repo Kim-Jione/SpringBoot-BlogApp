@@ -39,7 +39,7 @@
     </select>
 
 	<select id="findLoveList" resultType="site.metacoding.firstapp.web.dto.response.love.PostRespDto">
-       SELECT l.love_id, l.user_id, l.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.nickname, u.profile_img, p.updated_at
+       SELECT l.love_id, l.user_id, l.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, u.nickname, u.profile_img, p.updated_at,u.username
 		FROM (SELECT * FROM love WHERE user_id=#{userId}) l
 		INNER JOIN post p
 		ON l.post_id = p.post_id
