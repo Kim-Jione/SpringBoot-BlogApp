@@ -204,8 +204,6 @@ public class PostController {
 	public @ResponseBody CMRespDto<?> profileListForm(@PathVariable Integer toUserId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		Integer fromUserId = principal.getUserId();
-		System.out.println("디버그 fromUserId : " + fromUserId);
-		System.out.println("디버그 toUserId : " + toUserId);
 		ProfileDto profileRespDto = postDao.findByProfileInfo(fromUserId, toUserId);
 
 		profileRespDto.setMyPostListDto(postDao.findMyPostList(toUserId));
