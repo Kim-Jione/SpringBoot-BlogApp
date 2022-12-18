@@ -80,7 +80,7 @@
     </select>
 
 	 <select id="findDailyList" resultType="site.metacoding.firstapp.web.dto.response.post.DailyListDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM post p
 		INNER JOIN user u
 		ON p.user_id = u.user_id
@@ -88,7 +88,7 @@
     </select>
 
 	<select id="findBusinessList" resultType="site.metacoding.firstapp.web.dto.response.post.BusinessListDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM post p
 		INNER JOIN user u
 		ON p.user_id = u.user_id
@@ -96,7 +96,7 @@
     </select>
 
 	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.ListRespDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM user u 
 		LEFT JOIN post p
 		ON u.user_id = p.user_id
