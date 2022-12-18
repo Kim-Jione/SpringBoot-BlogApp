@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class MyVisitListDto {
 	private Integer postId;
-	private Integer userId;
+	private Integer ownerUserId;
 	private String postTitle;
 	private String postContent;
 	private String postThumnail;

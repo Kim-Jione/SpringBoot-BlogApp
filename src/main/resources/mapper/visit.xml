@@ -44,8 +44,8 @@
 		VALUES(#{userId},#{postId})
     </insert>
 	
-	<select id="findVisitList" resultType="site.metacoding.firstapp.web.dto.response.visit.PostRespDto">
-        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, u.username, u.nickname, 
+	<select id="findVisitList" resultType="site.metacoding.firstapp.web.dto.response.user.MyVisitListDto">
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, u.username, u.nickname, p.role,
 		u.	profile_img, p.updated_at
 		FROM post p
 		INNER JOIN visit v

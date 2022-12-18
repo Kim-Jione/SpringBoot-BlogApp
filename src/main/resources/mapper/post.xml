@@ -105,7 +105,7 @@
     </select>
 
 		<select id="findByProfileInfo" resultType="site.metacoding.firstapp.web.dto.response.user.ProfileDto">
- 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img 
+ 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img, u.user_id
 		FROM   user u
 		LEFT JOIN (SELECT subscribe_id, from_user_id, to_user_id FROM subscribe WHERE from_user_id=#{fromUserId} AND to_user_id=#{toUserId}) s
 		ON u.user_id = s.to_user_id
