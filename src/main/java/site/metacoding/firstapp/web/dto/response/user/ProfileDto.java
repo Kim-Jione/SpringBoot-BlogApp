@@ -13,6 +13,7 @@ public class ProfileDto {
 	private boolean isMy;
 
 	// 유저 프로필 정보
+	private Integer userId;
 	private String username;
 	private String nickname;
 	private String email;

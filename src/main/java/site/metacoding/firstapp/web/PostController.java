@@ -199,15 +199,16 @@ public class PostController {
 
 	}
 
-	// 유저 프로필 페이지
+	// 프로필 게시글 목록 페이지
 	@GetMapping("/s/post/profileListForm/{toUserId}")
 	public @ResponseBody CMRespDto<?> profileListForm(@PathVariable Integer toUserId) {
 		SessionUserDto principal = (SessionUserDto) session.getAttribute("principal");
 		Integer fromUserId = principal.getUserId();
+		System.out.println("디버그 fromUserId : " + fromUserId);
+		System.out.println("디버그 toUserId : " + toUserId);
 		ProfileDto profileRespDto = postDao.findByProfileInfo(fromUserId, toUserId);
-		
+
 		profileRespDto.setMyPostListDto(postDao.findMyPostList(toUserId));
-		System.out.println("디버그 :ㅁㅇㄴㄹㄴㅇㅁ ");
 		profileRespDto.setMyVisitListDto(visitDao.findVisitList(toUserId));
 
 		return new CMRespDto<>(1, "프로필 목록 페이지 불러오기 성공", profileRespDto);

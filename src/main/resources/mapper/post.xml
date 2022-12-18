@@ -57,7 +57,7 @@
     </select>
 
 	<select id="findByDetail" resultType="site.metacoding.firstapp.web.dto.response.post.DetailRespDto">
-    	SELECT *
+		SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.role, p.user_id ownerUserId, p.created_at, u.username, u.nickname, u.profile_img
 		FROM post p
 		LEFT JOIN user u 
 		ON p.user_id = u.user_id
@@ -65,13 +65,13 @@
     </select>
 
  	<select id="findByUserIdAndPostId" resultType="site.metacoding.firstapp.web.dto.response.post.UpdateRespDto">
-        SELECT *
-    	FROM post
+        SELECT p.user_id ownerUserId, p.post_title, p.role, p.post_content, p.post_thumnail
+    	FROM post p
     	WHERE user_id = #{userId} and post_id = #{postId}
     </select>
 	
 	<select id="findMyPostList" resultType="site.metacoding.firstapp.web.dto.response.user.MyPostListDto">
-        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id, p.role, p.updated_at
+        SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role, p.updated_at
 		FROM post p
 		INNER JOIN user u 
 		ON p.user_id=u.user_id
@@ -80,7 +80,7 @@
     </select>
 
 	 <select id="findDailyList" resultType="site.metacoding.firstapp.web.dto.response.post.DailyListDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM post p
 		INNER JOIN user u
 		ON p.user_id = u.user_id
@@ -88,7 +88,7 @@
     </select>
 
 	<select id="findBusinessList" resultType="site.metacoding.firstapp.web.dto.response.post.BusinessListDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM post p
 		INNER JOIN user u
 		ON p.user_id = u.user_id
@@ -96,7 +96,7 @@
     </select>
 
 	<select id="findPostList" resultType="site.metacoding.firstapp.web.dto.response.post.ListRespDto">
-        SELECT *
+        SELECT  p.post_id, p.post_title, p.post_content, p.post_thumnail, p.user_id ownerUserId, p.role,u.profile_img,u.nickname, u.created_at
 		FROM user u 
 		LEFT JOIN post p
 		ON u.user_id = p.user_id
@@ -105,7 +105,7 @@
     </select>
 
 		<select id="findByProfileInfo" resultType="site.metacoding.firstapp.web.dto.response.user.ProfileDto">
- 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img 
+ 		 SELECT if(s.subscribe_id is not null, true, false) isSubscribe, if(#{fromUserId}= #{toUserId}, true, false) isMy, u.username, u.email, u.nickname,u.profile_img, u.user_id
 		FROM   user u
 		LEFT JOIN (SELECT subscribe_id, from_user_id, to_user_id FROM subscribe WHERE from_user_id=#{fromUserId} AND to_user_id=#{toUserId}) s
 		ON u.user_id = s.to_user_id

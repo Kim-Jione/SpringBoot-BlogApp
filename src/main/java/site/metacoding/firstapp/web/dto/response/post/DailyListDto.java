@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DailyListDto {
+	private Integer ownerUserId;
 	private Integer postId;
 	private String postTitle;
 	private String postContent;
