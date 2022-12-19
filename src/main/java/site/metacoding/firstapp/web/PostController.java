@@ -136,10 +136,10 @@ public class PostController {
 		Integer visitId = visitService.방문한Id불러오기(principal.getUserId(), postId);
 		if (visitId == null) {
 			visitService.방문기록추가하기(principal.getUserId(), postId);
-			DetailRespDto detailRespDto = postService.게시글상세보기(postId);
+			DetailRespDto detailRespDto = postService.게시글상세보기(principal.getUserId(), postId);
 			return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기및 방문기록추가 성공", detailRespDto);
 		}
-		DetailRespDto detailRespDto = postService.게시글상세보기(postId);
+		DetailRespDto detailRespDto = postService.게시글상세보기(principal.getUserId(),postId);
 		return new CMRespDto<>(1, "게시글 상세보기 페이지 불러오기 성공", detailRespDto);
 	}
 

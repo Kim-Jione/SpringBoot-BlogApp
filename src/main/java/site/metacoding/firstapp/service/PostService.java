@@ -105,8 +105,8 @@ public class PostService {
 		return deleteRespDto;
 	}
 
-	public DetailRespDto 게시글상세보기(Integer postId) {
-		DetailRespDto detailRespDto = postDao.findByDetail(postId);
+	public DetailRespDto 게시글상세보기(Integer userId, Integer postId) {
+		DetailRespDto detailRespDto = postDao.findByDetail(userId, postId);
 		return detailRespDto;
 	}
 
