@@ -52,16 +52,20 @@
 
     <select id="deleteResult" resultType="site.metacoding.firstapp.web.dto.response.post.DeleteRespDto">
     	SELECT *
-    	FROM post
+    	FROM postde
     	WHERE post_id=#{postId}
     </select>
 
 	<select id="findByDetail" resultType="site.metacoding.firstapp.web.dto.response.post.DetailRespDto">
-		SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.role, p.user_id ownerUserId, p.created_at, u.username, u.nickname, u.profile_img
+		SELECT p.post_id, p.post_title, p.post_content, p.post_thumnail, p.role, p.user_id ownerUserId, p.created_at, u.username, u.nickname, u.profile_img, if(l.love_id IS not NULL , 1, 0) isLove
 		FROM post p
 		LEFT JOIN user u 
 		ON p.user_id = u.user_id
-		WHERE post_id=#{postId}
+		LEFT JOIN (	SELECT *
+		FROM love 
+		WHERE user_id=#{userId} ) l
+		ON p.post_id = l.post_id
+		WHERE p.post_id=#{postId}
     </select>
 
  	<select id="findByUserIdAndPostId" resultType="site.metacoding.firstapp.web.dto.response.post.UpdateRespDto">

@@ -32,7 +32,7 @@ public interface PostDao {
 
 	public DeleteRespDto deleteResult(Integer postId);
 
-	public DetailRespDto findByDetail(Integer postId);
+	public DetailRespDto findByDetail(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
 	public UpdateRespDto findByUserIdAndPostId(@Param("userId") Integer userId, @Param("postId") Integer postId);
 
