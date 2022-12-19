@@ -22,7 +22,6 @@ public class SubscribeService {
 	}
 
 	public Integer 구독Id불러오기(Integer fromUserId, Integer toUserId) {
-		System.out.println("디버그 =-==============ㅁㅇㄴㄹ==");
 		return subscribeDao.findByFromUserIdAndToUserId(fromUserId, toUserId);
 	}
 }

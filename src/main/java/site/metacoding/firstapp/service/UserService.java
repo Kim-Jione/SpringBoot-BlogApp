@@ -158,7 +158,7 @@ public class UserService {
 	public UpdateRespDto 프로필이미지수정하기(SessionUserDto principal, MultipartFile file) throws Exception {
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\temp\\img\\";
+		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
 
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
@@ -183,7 +183,7 @@ public class UserService {
 			System.out.println("사진저장 실패");
 		}
 
-		userDao.updateByProfileImg(imgName, principal.getUserId());
+		userDao.updateByProfileImg("img/" + imgName, principal.getUserId());
 		UpdateRespDto updateRespDto = userDao.imgUpdateResult(principal.getUserId());
 		return updateRespDto;
 	}

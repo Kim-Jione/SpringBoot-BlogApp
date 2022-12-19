@@ -32,7 +32,7 @@ public class PostService {
 
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\temp\\img\\";
+		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
 
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
@@ -57,7 +57,7 @@ public class PostService {
 			System.out.println("사진저장 실패");
 		}
 
-		saveReqDto.setPostThumnail(imgName);
+		saveReqDto.setPostThumnail("img/" + imgName);
 		postDao.insert(saveReqDto.toEntity());
 		SaveRespDto saveRespDto = postDao.saveResult(principal.getUserId());
 		return saveRespDto;
@@ -68,8 +68,7 @@ public class PostService {
 			throws Exception {
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\temp\\img\\";
-
+		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
 
@@ -93,7 +92,7 @@ public class PostService {
 			System.out.println("사진저장 실패");
 		}
 
-		updateReqDto.setPostThumnail(imgName);
+		updateReqDto.setPostThumnail("img/" + imgName);
 		postDao.update(updateReqDto.toEntity());
 		UpdateRespDto updateRespDto = postDao.updateResult(principal.getUserId());
 		return updateRespDto;

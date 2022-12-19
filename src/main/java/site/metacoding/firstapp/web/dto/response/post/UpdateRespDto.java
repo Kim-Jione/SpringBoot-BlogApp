@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateRespDto {
-	private Integer ownerUserId;
+	private Integer userId;
 	private String postTitle;
 	private String role;
 	private String postContent;
