@@ -66,7 +66,7 @@ public class UserService {
 
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\temp\\img\\";
+		String filePath = "src\\main\\resources\\static\\img";
 
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
