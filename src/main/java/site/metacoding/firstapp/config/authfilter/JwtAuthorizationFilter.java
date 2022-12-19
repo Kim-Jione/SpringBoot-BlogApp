@@ -51,17 +51,18 @@ public class JwtAuthorizationFilter implements Filter { // 토큰 검증 필터
             Map<String, Object> getSigned = decodedJWT.getClaim("sessionUserDto").asMap(); // 페이로드의 값들을 담는다
 
             TokenToSinedDto tokenToSinedDto = new TokenToSinedDto();
-            SessionUserDto sessionUserDto = tokenToSinedDto.tokenToSignedDto(getSigned); // 시그니처의 claim value 가져와서 로그인 Dto 변경
+            SessionUserDto sessionUserDto = tokenToSinedDto.tokenToSignedDto(getSigned); // 시그니처의 claim value 가져와서 로그인
+                                                                                         // Dto 변경
 
             HttpSession session = req.getSession();
 
             session.setAttribute("principal", sessionUserDto); // 세션에 값 저장, 이걸로 컨트롤러에서 비교
 
             // 디스패쳐 서블릿 입장 혹은 Filter체인 타기
-            chain.doFilter(req, resp);
         } catch (Exception e) {
             customResponse("만료된 토큰 혹은 잘못된 토큰이 입력되었습니다.", resp);
         }
+        chain.doFilter(req, resp);
 
     }
 

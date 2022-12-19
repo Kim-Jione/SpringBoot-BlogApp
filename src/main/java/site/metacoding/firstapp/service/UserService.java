@@ -158,7 +158,7 @@ public class UserService {
 	public UpdateRespDto 프로필이미지수정하기(SessionUserDto principal, MultipartFile file) throws Exception {
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
+		String filePath = "src\\main\\resources\\static\\img";
 
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();

@@ -32,7 +32,7 @@ public class PostService {
 
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
+		String filePath = "src\\main\\resources\\static\\img";
 
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
@@ -68,7 +68,7 @@ public class PostService {
 			throws Exception {
 		int pos = file.getOriginalFilename().lastIndexOf(".");
 		String extension = file.getOriginalFilename().substring(pos + 1);
-		String filePath = "C:\\Users\\KimJiWon\\Downloads\\Mybatis\\blogApp\\SpringBoot-Mybatis-Tstory\\src\\main\\resources\\static\\img";
+		String filePath = "src\\main\\resources\\static\\img";
 		// 랜덤 키 생성
 		String imgSaveName = UUID.randomUUID().toString();
 
